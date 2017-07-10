@@ -29,7 +29,7 @@ export default {
   },
 
   beforeCreate () {
-    console.log('beforeGeo')
+//    console.log('beforeGeo')
   },
 
   created () {
@@ -38,26 +38,26 @@ export default {
     let obj = null
     //    let { w, h } = this.$root.__rendererSize // fixme
     if (!(this.curObj instanceof Geometry)) {
-      console.log('MG', this.args, typeof this.args, this.args.split(','))
+      console.log('MG', this.type, this.args.split(','))
       let args = this.args.split(',')
       if (this.type) {
         switch (this.type) {
           case 'Cylinder':
-            obj = new THREE.BoxGeometry(...args)
+            obj = new THREE.CylinderGeometry(...args)
             break
           case 'Box':
           default:
-            obj = new THREE.BoxGeometry(10, 10, 10)
+            obj = new THREE.BoxGeometry(...args)
         }
       } else {
         obj = new Geometry()
       }
       this.curObj = obj
+      this.curObj.material = []
     }
     this.curObj.vue = this
     this.curObj.name = this.curObj.name || this.curObj.type
-//    this.$parent.$emit('setGeometry', this.curObj)
-    console.log('MGend', Object.assign({}, this.curObj))
+    this.$on('addMaterial', this.addMaterial)
   },
 
   mounted () {
@@ -65,7 +65,10 @@ export default {
   },
 
   methods: {
-
+    addMaterial (mat) {
+      this.curObj.material.push(mat)
+      this.$parent.$emit('addMaterial', mat)
+    }
   }
 }
 </script>

@@ -45,9 +45,6 @@ export default {
     }
   },
 
-  beforeCreate () {
-    console.log('beforeREN')
-  },
   created () {
     this.curObj = this.obj
     this.width = document.documentElement.clientWidth

@@ -6,15 +6,16 @@
         <v3d-scene ref="scene">
           <v3d-camera :control="true" ref="camera0">
           </v3d-camera>
-          <v3d-light color="#000000"></v3d-light>
+          <v3d-light color="#ffffff"></v3d-light>
           <v3d-mesh>
-            <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
-            <v3d-material type="Standard" color="#00ff00"></v3d-material>
-            <v3d-material type="Standard" color="#0000ff"></v3d-material>
-            <v3d-material type="Standard" color="#ff00ff"></v3d-material>
-            <v3d-material type="Standard" color="#ffff00"></v3d-material>
-            <v3d-material type="Standard" color="#00ffff"></v3d-material>
-            <v3d-geometry type="Box" args="20,20,20" ref="geo"></v3d-geometry>
+            <v3d-geometry type="Box" args="20,20,20" ref="geo">
+              <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
+              <v3d-material type="Standard" color="#00ff00"></v3d-material>
+              <v3d-material type="Standard" color="#0000ff"></v3d-material>
+              <v3d-material type="Standard" color="#ff00ff"></v3d-material>
+              <v3d-material type="Standard" color="#ffff00"></v3d-material>
+              <v3d-material type="Normal" color="#00ffff"></v3d-material>
+            </v3d-geometry>
           </v3d-mesh>
         </v3d-scene>
       </v3d-renderer>

@@ -23,7 +23,7 @@ export default {
     opacity: { default: 1 },
     side: Object,
     transparent: Boolean,
-    color: { default: '#000000' },
+    color: { default: '#88cc88' },
     parameters: { }
   },
 
@@ -37,13 +37,14 @@ export default {
         case 'Standard':
           this.curObj = new MeshStandardMaterial({color: this.color})
           break
+        case 'Normal':
         default:
           this.curObj = new MeshNormalMaterial()
       }
     }
+    console.log('createMAT', this.color, this.type, this.curObj.uuid)
     this.curObj.vue = this
     this.curObj.name = this.curObj.name || this.curObj.type
-//    this.$parent.$emit('addMaterial', this.curObj)
   },
 
   mounted () {

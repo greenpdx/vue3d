@@ -12,14 +12,13 @@ export default {
   name: 'Mesh',
   extends: [Object3D],
 
-  render: function (createEle) {
-    return function (createEle) {
-      '<span></span>'
-    }
-  },
   props: {
     obj: {
       type: Mesh
+    },
+    drawEdge: {
+      type: Boolean,
+      default: true
     },
     geometry: {
 //      required: true,
@@ -41,6 +40,7 @@ export default {
   },
 
   beforeCreate () {
+    this.edgeMat = new THREE.LineBasicMaterial({color: 0x000000})
     console.log('beforeMSH')
   },
 
@@ -48,7 +48,7 @@ export default {
     this.curObj = this.obj
     this.mat = []
 //    console.log('Mesh0 ', this.geometry.name, this.material.name, this.lname)
-    this.curObj = new THREE.Group()
+    this.curObj = new THREE.Mesh()
     //    let { w, h } = this.$root.__rendererSize // fixme
     this.curObj.name = this.curObj.name || this.curObj.type
     this.$on('setGeometry', this.addGeo)
@@ -71,15 +71,20 @@ export default {
   },
 
   methods: {
+    drawEdges (obj) {
+      let edges = new THREE.EdgesGeometry(obj, 1)
+      let line = new THREE.LineSegments(edges, this.edgeMat)
+      return line
+    },
     addGeo (geo) {
       this.geo = geo
-      if (!(this.curObj instanceof Mesh)) {
-        this.curObj = new THREE.Mesh(geo, this.material)
-        this.curObj.vue = this
-      }
+      this.curObj.geometry = geo
+      this.curObj.material = this.mat[1]
       this.curObj.name = this.curObj.name || this.curObj.type
-      console.log('mkMSH', this.curObj.uuid)
-//      this.$parent.$emit('addMesh', this.curObj)
+      console.log('mkMSH', this.curObj.uuid, this.mat[0].color, Object.assign({}, this.mat[0]))
+      let edge = this.drawEdges(geo)
+      edge.vue = this
+      this.$parent.$emit('addMesh', edge)
     },
     addMat (mat) {
       console.log('addMatMSH', mat.uuid)
@@ -98,11 +103,11 @@ export default {
     },
     hover (val) {
       let mat = this.curObj.material
-      console.log(val, this.curObj.uuid, mat.length)
+      console.log(val, this.curObj.uuid, mat)
       if (val) {
 //        this.curObj.material.forEach(function (ele) {
 
-        console.log(mat[0])
+        console.log(mat.color)
 //        ele.wireframe = true
 //        })
       } else {
