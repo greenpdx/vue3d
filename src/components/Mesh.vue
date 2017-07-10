@@ -41,7 +41,6 @@ export default {
 
   beforeCreate () {
     this.edgeMat = new THREE.LineBasicMaterial({color: 0x000000})
-    this.dbgPrt('beforeMSH')
   },
 
   created () {
@@ -49,15 +48,12 @@ export default {
     this.mat = []
 //    console.log('Mesh0 ', this.geometry.name, this.material.name, this.lname)
     this.curObj = new THREE.Mesh()
+    this.curObj.vue = this
     //    let { w, h } = this.$root.__rendererSize // fixme
     this.curObj.name = this.curObj.name || this.curObj.type
     this.$on('setGeometry', this.addGeo)
     this.$on('addMaterial', this.addMat)
     this.dbgPrt('createMSH', this.curObj.uuid)
-  },
-
-  beforeMount () {
-    this.dbgPrt('beforeMountMSH', this.curObj.uuid)
   },
 
   mounted () {
@@ -105,15 +101,9 @@ export default {
       let mat = this.curObj.material
       this.dbgPrt(val, this.curObj.uuid, mat)
       if (val) {
-//        this.curObj.material.forEach(function (ele) {
-
-        this.dbgPrt(mat.color)
-//        ele.wireframe = true
-//        })
+        this.curObj.material.wireframe = true
       } else {
-//        this.curObj.material.forEach(function (ele) {
-//        ele.wireframe = false
-//        })
+        this.curObj.material.wireframe = false
       }
     },
     select (val) {
@@ -121,13 +111,9 @@ export default {
       let mat = obj.material
       this.dbgPrt(val, Object.assign({}, mat))
       if (val) {
-        mat.forEach(function (ele) {
-          ele.color = ele.color
-        })
+        obj.material = this.mat[5]
       } else {
-        mat.forEach(function (ele) {
-          ele.color = ele.color
-        })
+        obj.material = this.mat[1]
       }
     }
   }

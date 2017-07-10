@@ -20,8 +20,11 @@ const getters = {
 
 const mutations = {
   HOVER (state, self) {
-    this.dbgPrt('HOVER', self.uuid)
-    if (state.hoverObj && self.uuid !== state.hoverObj.uuid) {
+    if ((!self && !state.hoverObj) || (self && state.hoverObj && self.uuid === state.hoverObj.uuid)) {
+      return
+    }
+    console.log('HOVER', self)
+    if (!self || (state.hoverObj && self.uuid !== state.hoverObj.uuid)) {
       state.hoverObj.vue.hover(false)
       state.hoverObj = null
     }

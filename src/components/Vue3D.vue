@@ -1,8 +1,8 @@
 <template>
   <div class="vue3d">
     <h1>{{ msg }}</h1>
-    <div id="three3d" class="three3d">
-      <v3d-renderer ref="renderer">
+    <div id="three3d" class="three3d" ref="three3d">
+      <v3d-renderer ref="renderer" :size="this.threeSize">
         <v3d-scene ref="scene">
           <v3d-camera :control="true" ref="camera0">
           </v3d-camera>
@@ -19,6 +19,9 @@
           </v3d-mesh>
         </v3d-scene>
       </v3d-renderer>
+      <div v-show="showInfo" class="infopop" ref="infopop">
+        <div >{{ objInfo.uuid }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -52,7 +55,9 @@ export default {
   data () {
     return {
       msg: 'Vue and Three JS test project',
-      version3d: ''
+      version3d: '',
+      objInfo: '',
+      threeSize: {w: '800px', h: '800px'}
     }
   },
 
@@ -60,11 +65,37 @@ export default {
     this.version3d = THREE.REVISION
   },
 
+  mounted () {
+    let ele = this.$refs.infopop
+    ele.style.top = this.mySize.top + 'px'
+    ele.style.left = this.mySize.left + 'px'
+  },
+
   computed: {
     ...mapGetters({
       hoverObj: 'hoverObj',
       selectObj: 'selectObj'
-    })
+    }),
+    showInfo: function () {
+      if (this.hoverObj !== null) {
+        this.objInfo = this.hoverObj
+        return true
+      } else {
+        this.objInfo = ''
+        return false
+      }
+    },
+    mySize: function () {
+      let ren = this.$refs.renderer.$el
+      return {
+        top: ren.offsetTop,
+        left: ren.offsetLeft,
+        width: ren.offsetWidth,
+        height: ren.offsetHeight,
+        bottom: ren.offsetTop + ren.offsetHeight,
+        right: ren.offsetLeft + ren.offsetWidth
+      }
+    }
   }
 }
 </script>
@@ -74,6 +105,17 @@ export default {
 .three3d {
   width: 800px;
   height: 800px;
+}
+.infopop {
+  border: 2 solid black;
+  width: 30em;
+  height: 100px;
+  position: absolute;
+  display: inline-block;
+  top: 0px;
+  left: 0px;
+  background-color: yellow;
+  z-index: 10;
 }
 h1, h2 {
   font-weight: normal;

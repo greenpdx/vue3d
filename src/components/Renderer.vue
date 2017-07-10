@@ -56,7 +56,8 @@ export default {
     }
     this.curObj.vue = this
     this.curObj.name = this.curObj.name || this.curObj.type
-    this.curObj.setSize(600, 600)
+//    this.curObj.setSize(this.size.w, this.size.h)
+    this.curObj.setSize(800, 800)
 //    this.$root.__rendererSize = this.size3d // fixme
     this.domEle = this.curObj.domElement
     this.curObj.setClearColor(this.clearColor)
@@ -97,8 +98,8 @@ export default {
         w: this.domEle.offsetWidth
       }
       let mouse = {}
-      mouse.x = ((evt.clientX - dom.x) / dom.w) * 2 - 1
-      mouse.y = -((evt.clientY - dom.y) / dom.h) * 2 + 1
+      mouse.x = ((evt.layerX - dom.x) / dom.w) * 2 - 1
+      mouse.y = -((evt.layerY - dom.y) / dom.h) * 2 + 1
       this.raycast.setFromCamera(mouse, this.camera)
       return this.raycast.intersectObjects(this.scene.children)
     },
@@ -108,8 +109,8 @@ export default {
       let obj = null
       if (intersect.length > 0) {
         obj = intersect[0].object
-        this.$store.dispatch('hover', obj)
       }
+      this.$store.dispatch('hover', obj)
       this.animate()
     },
     onClick (evt) {
@@ -175,3 +176,5 @@ export default {
 }
 
 </script>
+<style scoped>
+</style>
