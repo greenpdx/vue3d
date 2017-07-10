@@ -42,7 +42,6 @@ export default {
 
   created () {
     this.curObj = this.obj
-    console.log('CAM')
     //    let { w, h } = this.$root.__rendererSize // fixme
     if (!(this.curObj instanceof Camera)) {
       switch (this.type) {
@@ -64,11 +63,11 @@ export default {
       }
     }
     this.curObj.name = this.curObj.name || this.curObj.type
-    console.log('createCAM', this.curObj.uuid)
+    this.dbgPrt('createCAM', this.curObj.uuid)
   },
 
   mounted () {
-    console.log('mountCAM', this.curObj.uuid)
+    this.dbgPrt('mountCAM', this.curObj.uuid)
     this.$parent.$emit('addCamera', this.curObj)
   },
 

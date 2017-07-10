@@ -41,7 +41,7 @@ export default {
 
   beforeCreate () {
     this.edgeMat = new THREE.LineBasicMaterial({color: 0x000000})
-    console.log('beforeMSH')
+    this.dbgPrt('beforeMSH')
   },
 
   created () {
@@ -53,20 +53,20 @@ export default {
     this.curObj.name = this.curObj.name || this.curObj.type
     this.$on('setGeometry', this.addGeo)
     this.$on('addMaterial', this.addMat)
-    console.log('createMSH', this.curObj.uuid)
+    this.dbgPrt('createMSH', this.curObj.uuid)
   },
 
   beforeMount () {
-    console.log('beforeMountMSH', this.curObj.uuid)
+    this.dbgPrt('beforeMountMSH', this.curObj.uuid)
   },
 
   mounted () {
-    console.log('mountMSH', this.curObj.uuid)
+    this.dbgPrt('mountMSH', this.curObj.uuid)
     this.$parent.$emit('addMesh', this.curObj)
   },
 
   updated () {
-    console.log('updateMSH')
+    this.dbgPrt('updateMSH')
 //    this.$parent.$emit('addMesh', this.curObj)
   },
 
@@ -81,17 +81,17 @@ export default {
       this.curObj.geometry = geo
       this.curObj.material = this.mat[1]
       this.curObj.name = this.curObj.name || this.curObj.type
-      console.log('mkMSH', this.curObj.uuid, this.mat[0].color, Object.assign({}, this.mat[0]))
+      this.dbgPrt('mkMSH', this.curObj.uuid, this.mat[0].color, Object.assign({}, this.mat[0]))
       let edge = this.drawEdges(geo)
       edge.vue = this
       this.$parent.$emit('addMesh', edge)
     },
     addMat (mat) {
-      console.log('addMatMSH', mat.uuid)
+      this.dbgPrt('addMatMSH', mat.uuid)
       this.mat.push(mat)
     },
     onClick: function (evt) {
-      console.log(evt)
+      this.dbgPrt(evt)
     },
     onHover () {
       let self = this
@@ -103,11 +103,11 @@ export default {
     },
     hover (val) {
       let mat = this.curObj.material
-      console.log(val, this.curObj.uuid, mat)
+      this.dbgPrt(val, this.curObj.uuid, mat)
       if (val) {
 //        this.curObj.material.forEach(function (ele) {
 
-        console.log(mat.color)
+        this.dbgPrt(mat.color)
 //        ele.wireframe = true
 //        })
       } else {
@@ -119,7 +119,7 @@ export default {
     select (val) {
       let obj = this.curObj
       let mat = obj.material
-      console.log(val, Object.assign({}, mat))
+      this.dbgPrt(val, Object.assign({}, mat))
       if (val) {
         mat.forEach(function (ele) {
           ele.color = ele.color

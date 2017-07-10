@@ -20,7 +20,7 @@ const getters = {
 
 const mutations = {
   HOVER (state, self) {
-    console.log('HOVER', self.uuid)
+    this.dbgPrt('HOVER', self.uuid)
     if (state.hoverObj && self.uuid !== state.hoverObj.uuid) {
       state.hoverObj.vue.hover(false)
       state.hoverObj = null
@@ -43,7 +43,7 @@ const mutations = {
   WHEEL (state, obj) {
     //      let node = obj.obj
     let val = obj.val
-    console.log('store wheel', val, state.selectObj)
+    this.dbgPrt('store wheel', val, state.selectObj)
   }
 }
 const actions = {

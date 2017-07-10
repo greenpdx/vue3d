@@ -27,7 +27,7 @@ export default {
 
   created () {
     this.curObj = this.obj
-    console.log('ORBIT create', this.$parent.curObj)
+    this.dbgPrt('ORBIT create', this.$parent.curObj)
     this.curObj = this.mkControls()
   },
 

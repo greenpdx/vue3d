@@ -64,14 +64,14 @@ export default {
     this.$on('rmChild', this.rmChild)
     this.$on('addMaterial', this.addMaterial)
     this.$on('setGeometry', this.addGeometry)
-    console.log('createO3D', this.curObj.uuid)
+    this.dbgPrt('createO3D', this.curObj.uuid)
   },
 
   mounted () {
     assign(this.curObj.position, this.position)
     assign(this.curObj.rotation, this.rotation)
     this.$parent.$emit('addChild', this.curObj)
-    console.log('mountO3D', this.curObj.uuid)
+    this.dbgPrt('mountO3D', this.curObj.uuid)
   },
 
   beforeDestroy () {
@@ -81,7 +81,7 @@ export default {
   methods: {
     addChild (child) {
       if (this.curObj.uuid !== child.uuid) {
-        console.log('addChldO3D', child.uuid)
+        this.dbgPrt('addChldO3D', child.uuid)
         this.curObj.add(child)
       }
     },
@@ -89,13 +89,13 @@ export default {
       this.curObj.remove(child)
     },
     addMaterial (mat) {
-      console.log('addMatO3D', mat.uuid)
+      this.dbgPrt('addMatO3D', mat.uuid)
       this.mats.push(mat)
       this.curObj.material = this.mats
     },
     addGeometry (geo) {
 //      this.geometry = geo
-      console.log('addGeoO3D', geo.uuid)
+      this.dbgPrt('addGeoO3D', geo.uuid)
       this.curObj.geometry = geo
     }
   }

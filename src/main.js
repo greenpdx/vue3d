@@ -7,6 +7,18 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+const debug = true
+
+Vue.mixin({
+  methods: {
+    dbgPrt () {
+      if (debug) {
+        console.log(...arguments)
+      }
+    }
+  }
+})
+
 /* eslint-disable no-new */
 new Vue({
   store,

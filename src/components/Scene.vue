@@ -33,11 +33,11 @@ export default {
     this.$on('addCamera', this.addCamera)
     this.$on('addLight', this.addLight)
     this.$on('addMesh', this.addMesh)
-    console.log('createSCN', this.curObj.uuid)
+    this.dbgPrt('createSCN', this.curObj.uuid)
   },
 
   mounted () {
-    console.log('mountSCN', this.curObj.uuid)
+    this.dbgPrt('mountSCN', this.curObj.uuid)
     this.$parent.$emit('addScene', this.curObj)
 //    this.$store.dispatch('sceneReady', this.curObj)
   },
@@ -46,15 +46,15 @@ export default {
     addCamera (camera) {
       this.cameras.push(camera)
       this.$parent.$emit('addCamera', camera)
-      console.log('addCamSCN', camera.uuid)
+      this.dbgPrt('addCamSCN', camera.uuid)
     },
     addLight (light) {
-      console.log('addLightSCN')
+      this.dbgPrt('addLightSCN')
       this.lights.push(light)
       this.curObj.add(light)
     },
     addMesh (mesh) {
-      console.log('addMeshSCN', mesh.uuid)
+      this.dbgPrt('addMeshSCN', mesh.uuid)
       this.meshes.push(mesh)
       this.curObj.add(mesh)
     }

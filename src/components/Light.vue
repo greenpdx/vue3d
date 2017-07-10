@@ -46,12 +46,12 @@ export default {
     }
     this.curObj.vue = this
     this.curObj.name = this.curObj.name || this.curObj.type
-    console.log('creatLHT')
+    this.dbgPrt('creatLHT')
     this.$parent.$emit('addLight', this.curObj)
   },
 
   mounted () {
-    console.log('mountLGT')
+    this.dbgPrt('mountLGT')
 //    this.$parent.$emit('addLight', this.curObj)
   }
 }

@@ -38,7 +38,7 @@ export default {
     let obj = null
     //    let { w, h } = this.$root.__rendererSize // fixme
     if (!(this.curObj instanceof Geometry)) {
-      console.log('MG', this.type, this.args.split(','))
+      this.dbgPrt('MG', this.type, this.args.split(','))
       let args = this.args.split(',')
       if (this.type) {
         switch (this.type) {

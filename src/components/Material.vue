@@ -42,7 +42,7 @@ export default {
           this.curObj = new MeshNormalMaterial()
       }
     }
-    console.log('createMAT', this.color, this.type, this.curObj.uuid)
+    this.dbgPrt('createMAT', this.color, this.type, this.curObj.uuid)
     this.curObj.vue = this
     this.curObj.name = this.curObj.name || this.curObj.type
   },

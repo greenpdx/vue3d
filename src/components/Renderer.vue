@@ -72,7 +72,7 @@ export default {
 
     this.$on('addScene', this.addScene)
     this.$on('addCamera', this.addCamera)
-    console.log('createREN')
+    this.dbgPrt('createREN')
   },
 
   mounted () {
@@ -137,7 +137,7 @@ export default {
 
     addScene (scene) {
       this.scene = scene
-      console.log('addScene', scene.uuid)
+      this.dbgPrt('addScene', scene.uuid)
       if (process.env.NODE_ENV === 'development') {
         window.THREE = THREE
         window.scene = scene
@@ -145,7 +145,7 @@ export default {
     },
 
     addCamera (camera) {
-      console.log('addCam', camera.uuid)
+      this.dbgPrt('addCam', camera.uuid)
       this.camera = camera
 //      this.animate()
     },
@@ -162,7 +162,7 @@ export default {
 //    },
     animate () {
       if (!this.camera) {
-        console.log('RENnoCAM')
+        this.dbgPrt('RENnoCAM')
         return
       }
       if (this.controls) {
