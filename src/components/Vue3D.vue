@@ -1,7 +1,10 @@
 <template>
   <div class="vue3d">
     <h1>{{ msg }}</h1>
+    <h3>{{ about }}<br/>
+      Source <a v-bind:href="linkto"> vue3d </a> Contact <a v-bind:href="mailto">GreenPDX</a></h3>
     <div id="three3d" class="three3d" ref="three3d">
+      <h2>{{ selectIt }}</h2>
       <v3d-renderer ref="renderer" :size="this.threeSize">
         <v3d-scene ref="scene">
           <v3d-camera :control="true" ref="camera0">
@@ -22,6 +25,31 @@
       <div v-show="showInfo" class="infopop" ref="infopop">
         <div >{{ objInfo.uuid }}</div>
       </div>
+    </div>
+    <div class="right">
+      <h3>Template Code</h3>
+      <pre>    &lt;div id=&quot;three3d&quot; class=&quot;three3d&quot; ref=&quot;three3d&quot;&gt;<br />
+      &lt;v3d-renderer ref=&quot;renderer&quot; :size=&quot;this.threeSize&quot;&gt;<br />
+        &lt;v3d-scene ref=&quot;scene&quot;&gt;<br />
+          &lt;v3d-camera :control=&quot;true&quot; ref=&quot;camera0&quot;&gt;<br />
+          &lt;/v3d-camera&gt;<br />
+          &lt;v3d-light color=&quot;#ffffff&quot;&gt;&lt;/v3d-light&gt;<br />
+          &lt;v3d-mesh&gt;<br />
+            &lt;v3d-geometry type=&quot;Box&quot; args=&quot;20,20,20&quot; ref=&quot;geo&quot;&gt;<br />
+              &lt;v3d-material type=&quot;Standard&quot; color=&quot;#ff0000&quot; ref=&quot;mat&quot;&gt;&lt;/v3d-material&gt;<br />
+              &lt;v3d-material type=&quot;Standard&quot; color=&quot;#00ff00&quot;&gt;&lt;/v3d-material&gt;<br />
+              &lt;v3d-material type=&quot;Standard&quot; color=&quot;#0000ff&quot;&gt;&lt;/v3d-material&gt;<br />
+              &lt;v3d-material type=&quot;Standard&quot; color=&quot;#ff00ff&quot;&gt;&lt;/v3d-material&gt;<br />
+              &lt;v3d-material type=&quot;Standard&quot; color=&quot;#ffff00&quot;&gt;&lt;/v3d-material&gt;<br />
+              &lt;v3d-material type=&quot;Normal&quot; color=&quot;#00ffff&quot;&gt;&lt;/v3d-material&gt;<br />
+            &lt;/v3d-geometry&gt;<br />
+          &lt;/v3d-mesh&gt;<br />
+        &lt;/v3d-scene&gt;<br />
+      &lt;/v3d-renderer&gt;<br />
+      &lt;div v-show=&quot;showInfo&quot; class=&quot;infopop&quot; ref=&quot;infopop&quot;&gt;<br />
+        &lt;div &gt;{{ objInfo.uuid }}&lt;/div&gt;<br />
+      &lt;/div&gt;<br />
+</pre>
     </div>
   </div>
 </template>
@@ -57,12 +85,20 @@ export default {
       msg: 'Vue and Three JS test project',
       version3d: '',
       objInfo: '',
-      threeSize: {w: '800px', h: '800px'}
+      threeSize: {w: '800px', h: '800px'},
+      selectIt: 'Double click to select cube, mouse down to rotate, wheel to zoom',
+      about: '3D framework for vue ',
+      linkto: 'https://github.com/greenpdx/vue3d',
+      mailto: 'mailto:savages@taxnvote.org?subject=vue3d%20Demo%20'
     }
   },
 
   created () {
     this.version3d = THREE.REVISION
+    let http = Vue.http
+    console.log('HTTP', http)
+    let rand = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER - 1))
+    this.mailto = this.mailto + document.referrer + '&body=Please Keep; ' + rand
   },
 
   mounted () {
@@ -102,8 +138,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.vue3d {
+    display: inline;
+}
 .three3d {
-  width: 800px;
+  float: left;
+  width: 48%;
   height: 800px;
 }
 .infopop {
@@ -116,6 +156,12 @@ export default {
   left: 0px;
   background-color: yellow;
   z-index: 10;
+}
+.right {
+  float: right;
+  width: 45%;
+  text-align: left;
+  font-size: 1.2em;
 }
 h1, h2 {
   font-weight: normal;
