@@ -28,28 +28,6 @@
     </div>
     <div class="right">
       <h3>Template Code</h3>
-      <pre>    &lt;div id=&quot;three3d&quot; class=&quot;three3d&quot; ref=&quot;three3d&quot;&gt;<br />
-      &lt;v3d-renderer ref=&quot;renderer&quot; :size=&quot;this.threeSize&quot;&gt;<br />
-        &lt;v3d-scene ref=&quot;scene&quot;&gt;<br />
-          &lt;v3d-camera :control=&quot;true&quot; ref=&quot;camera0&quot;&gt;<br />
-          &lt;/v3d-camera&gt;<br />
-          &lt;v3d-light color=&quot;#ffffff&quot;&gt;&lt;/v3d-light&gt;<br />
-          &lt;v3d-mesh&gt;<br />
-            &lt;v3d-geometry type=&quot;Box&quot; args=&quot;20,20,20&quot; ref=&quot;geo&quot;&gt;<br />
-              &lt;v3d-material type=&quot;Standard&quot; color=&quot;#ff0000&quot; ref=&quot;mat&quot;&gt;&lt;/v3d-material&gt;<br />
-              &lt;v3d-material type=&quot;Standard&quot; color=&quot;#00ff00&quot;&gt;&lt;/v3d-material&gt;<br />
-              &lt;v3d-material type=&quot;Standard&quot; color=&quot;#0000ff&quot;&gt;&lt;/v3d-material&gt;<br />
-              &lt;v3d-material type=&quot;Standard&quot; color=&quot;#ff00ff&quot;&gt;&lt;/v3d-material&gt;<br />
-              &lt;v3d-material type=&quot;Standard&quot; color=&quot;#ffff00&quot;&gt;&lt;/v3d-material&gt;<br />
-              &lt;v3d-material type=&quot;Normal&quot; color=&quot;#00ffff&quot;&gt;&lt;/v3d-material&gt;<br />
-            &lt;/v3d-geometry&gt;<br />
-          &lt;/v3d-mesh&gt;<br />
-        &lt;/v3d-scene&gt;<br />
-      &lt;/v3d-renderer&gt;<br />
-      &lt;div v-show=&quot;showInfo&quot; class=&quot;infopop&quot; ref=&quot;infopop&quot;&gt;<br />
-        &lt;div &gt;{{ objInfo.uuid }}&lt;/div&gt;<br />
-      &lt;/div&gt;<br />
-</pre>
     </div>
   </div>
 </template>
