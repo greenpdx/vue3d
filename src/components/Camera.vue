@@ -5,7 +5,7 @@ import {
   OrthographicCamera
 } from 'three'
 import Object3D from './Object3D'
-import OrbitControls from 'three-orbitcontrols'  // move to own component
+// import OrbitControls from 'three-orbitcontrols'  // move to own component
 import { mapGetters } from 'vuex'
 
 export default {
@@ -30,8 +30,7 @@ export default {
     },
     type: {
       default: 'Perspective'
-    },
-    control: Boolean
+    }
   },
 
   data () {
@@ -55,20 +54,25 @@ export default {
       this.curObj.vue = this
       this.curObj.position.z = 150
 
-      this.setCamera()
-      if (this.control) {
+//      this.setCamera()
+/*      if (this.control) {
         this.domEle = this.$parent.$parent.domEle
         this.curObj.tst = 0
         this.controls = new OrbitControls(this.curObj, this.domEle)
-      }
+      } */
     }
-    this.curObj.name = this.curObj.name || this.curObj.type
-    this.dbgPrt('createCAM', this.curObj.uuid)
+    this.curObj.name = this.name || this.curObj.uuid
+    this.dbgPrt('createCAM', this.curObj.uuid, this)
+    this.$parent.$emit('addCamera', this)
+  },
+
+  beforeMount () {
+//    this.$parent.$emit('addCamera', this)
   },
 
   mounted () {
-    this.dbgPrt('mountCAM', this.curObj.uuid)
-    this.$parent.$emit('addCamera', this.curObj)
+//    this.$parent.$emit('addCamera', this)
+    this.dbgPrt('mountCAM', this)
   },
 
   computed: {

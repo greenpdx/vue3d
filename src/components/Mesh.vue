@@ -4,18 +4,16 @@
 <script>
 import * as THREE from 'three'
 import Object3D from './Object3D'
+// import Group from './Group'
 // import bus from '@/lib/bus'
 
 const Mesh = THREE.Mesh
 
 export default {
   name: 'Mesh',
-  extends: [Object3D],
+  mixins: [Object3D],
 
   props: {
-    obj: {
-      type: Mesh
-    },
     drawEdge: {
       type: Boolean,
       default: true
@@ -32,9 +30,6 @@ export default {
 
   data () {
     return {
-      id: 'test',
-      hovered: false,
-      mat: [],
       geo: null
     }
   },
@@ -45,11 +40,9 @@ export default {
 
   created () {
     this.curObj = this.obj
-    this.mat = []
-//    console.log('Mesh0 ', this.geometry.name, this.material.name, this.lname)
-    this.curObj = new THREE.Mesh()
+//    this.loc = this.cleanObj(this.location)
+    this.curObj = new Mesh()
     this.curObj.vue = this
-    //    let { w, h } = this.$root.__rendererSize // fixme
     this.curObj.name = this.curObj.name || this.curObj.type
     this.$on('setGeometry', this.addGeo)
     this.$on('addMaterial', this.addMat)
@@ -75,7 +68,7 @@ export default {
     addGeo (geo) {
       this.geo = geo
       this.curObj.geometry = geo
-      this.curObj.material = this.mat[1]
+      this.curObj.material = this.mat[0]
       this.curObj.name = this.curObj.name || this.curObj.type
       this.dbgPrt('mkMSH', this.curObj.uuid, this.mat[0].color, Object.assign({}, this.mat[0]))
       let edge = this.drawEdges(geo)

@@ -10,6 +10,7 @@ import Object3D from './Object3D'
 export default {
   name: 'Light',
   mixins: [Object3D],
+  components: [Object3D],
 
   props: {
     obj: {
@@ -46,8 +47,8 @@ export default {
     }
     this.curObj.vue = this
     this.curObj.name = this.curObj.name || this.curObj.type
-    this.dbgPrt('creatLHT')
-    this.$parent.$emit('addLight', this.curObj)
+    this.dbgPrt('creatLHT', this.curObj.uuid)
+    this.$parent.$emit('addLight', this)
   },
 
   mounted () {

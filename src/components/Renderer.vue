@@ -16,7 +16,7 @@ export default {
 
   props: {
     size: {
-      type: Object // { w, h }
+      type: String // { w, h }
     },
     obj: { type: WebGLRenderer },
     alpha: {
@@ -34,6 +34,9 @@ export default {
     sortObjects: {
       type: Boolean,
       default: false
+    },
+    name: {
+      default: null
     }
   },
 
@@ -55,29 +58,29 @@ export default {
       this.curObj = new WebGLRenderer({ antialias: this.antialias, alpha: this.alpha })
     }
     this.curObj.vue = this
-    this.curObj.name = this.curObj.name || this.curObj.type
+    this.curObj.name = this.name || this.curObj.uuid
 //    this.curObj.setSize(this.size.w, this.size.h)
     this.curObj.setSize(800, 800)
 //    this.$root.__rendererSize = this.size3d // fixme
     this.domEle = this.curObj.domElement
     this.curObj.setClearColor(this.clearColor)
-
     this.scene = null
     this.camera = null
 
     this.raycast = new THREE.Raycaster()
-
+//    this.curObj.uuid = 'renderer'
     this.domEle.addEventListener('mousemove', this.onMouseMove, true)
     this.domEle.addEventListener('dblclick', this.onClick, false)
     this.domEle.addEventListener('wheel', this.onWheel, false)
 
     this.$on('addScene', this.addScene)
     this.$on('addCamera', this.addCamera)
-    this.dbgPrt('createREN')
+    this.dbgPrt('createREN', this.id, this.curObj)
   },
 
   mounted () {
-    this.$refs.container.appendChild(this.curObj.domElement)
+    console.log('REN MNT', this.domEle)
+    this.$refs.container.appendChild(this.domEle)
     this.animate()
   },
 
@@ -87,6 +90,13 @@ export default {
   },
 
   computed: {
+    domElement: function () {
+      return this.domEle
+    },
+    id: function () {
+      console.log('id func')
+      return this.name || 'renderer'
+    }
   },
 
   methods: {
@@ -138,15 +148,15 @@ export default {
 
     addScene (scene) {
       this.scene = scene
-      this.dbgPrt('addScene', scene.uuid)
+      this.dbgPrt('RENaddScene', scene.id, Object.assign({}, this.curObj))
       if (process.env.NODE_ENV === 'development') {
         window.THREE = THREE
-        window.scene = scene
+        window.scene = scene.curObj
       }
     },
 
     addCamera (camera) {
-      this.dbgPrt('addCam', camera.uuid)
+      this.dbgPrt('RENaddCam', camera.id, this.curObj)
       this.camera = camera
 //      this.animate()
     },
@@ -170,7 +180,7 @@ export default {
         this.controls.update()
       }
       requestAnimationFrame(this.animate)
-      this.curObj.render(this.scene, this.camera)
+      this.curObj.render(this.scene.curObj, this.camera.curObj)
     }
   }
 }

@@ -5,21 +5,28 @@
       Source <a v-bind:href="linkto"> vue3d </a> Contact <a v-bind:href="mailto">GreenPDX</a></h3>
     <div id="three3d" class="three3d" ref="three3d">
       <h2>{{ selectIt }}</h2>
-      <v3d-renderer ref="renderer" :size="this.threeSize">
+      <v3d-renderer ref="renderer" size="800,800">
         <v3d-scene ref="scene">
-          <v3d-camera :control="true" ref="camera0">
-          </v3d-camera>
-          <v3d-light color="#ffffff"></v3d-light>
-          <v3d-mesh>
-            <v3d-geometry type="Box" args="20,20,20" ref="geo">
-              <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
-              <v3d-material type="Standard" color="#00ff00"></v3d-material>
-              <v3d-material type="Standard" color="#0000ff"></v3d-material>
-              <v3d-material type="Standard" color="#ff00ff"></v3d-material>
-              <v3d-material type="Standard" color="#ffff00"></v3d-material>
-              <v3d-material type="Normal" color="#00ffff"></v3d-material>
-            </v3d-geometry>
-          </v3d-mesh>
+          <!-- v3d-orbit-controls ref="controls" -->
+            <v3d-camera ref="camera0" position="{z: 150}"></v3d-camera>
+          <!-- /v3d-orbit-controls -->
+          <!-- v3d-light color="#ffffff"></v3d-light -->
+          <!-- v3d-group location="{0,0,0}">
+            <v3d-mesh>
+              <v3d-geometry type="Cylinder" args="25,25,15,6,1,true" ref="cyl">
+                <v3d-material type="Standard" color="#00ff00" side="Double"></v3d-material>
+                <v3d-material type="Standard" color="#0000ff"></v3d-material>
+                <v3d-material type="Standard" color="#ff00ff"></v3d-material>
+                <v3d-material type="Standard" color="#ffff00"></v3d-material>
+              </v3d-geometry>
+            </v3d-mesh -->
+            <!--v3d-mesh>
+              <v3d-geometry type="Cylinder" args="25,0.1,10,6,1,true" ref="cyl">
+                <v3d-material type="Normal" color="#00ffff"></v3d-material>
+                <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
+              </v3d-geometry>
+            </v3d-mesh>
+          </v3d-group -->
         </v3d-scene>
       </v3d-renderer>
       <div v-show="showInfo" class="infopop" ref="infopop">
@@ -46,6 +53,7 @@ import Mesh from '@/components/Mesh'
 import Geometry from '@/components/Geometry'
 import Material from '@/components/Material'
 import OrbitControls from '@/components/OrbitControls'
+import Group from '@/components/Group'
 
 Vue.component('v3d-renderer', Renderer)
 Vue.component('v3d-scene', Scene)
@@ -55,6 +63,7 @@ Vue.component('v3d-mesh', Mesh)
 Vue.component('v3d-geometry', Geometry)
 Vue.component('v3d-material', Material)
 Vue.component('v3d-orbit-controls', OrbitControls)
+Vue.component('v3d-group', Group)
 
 export default {
   name: 'vue3d',

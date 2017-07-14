@@ -21,7 +21,9 @@ export default {
     type: { default: 'Standard' },
     fog: { default: false },
     opacity: { default: 1 },
-    side: Object,
+    side: {
+      default: 'Double'
+    },
     transparent: Boolean,
     color: { default: '#88cc88' },
     parameters: { }
@@ -29,17 +31,30 @@ export default {
 
   created () {
     this.curObj = this.obj
+    let side = THREE.DoubleSide
+    switch (this.side) {
+      case 'Front':
+        side = THREE.FrontSide
+        break
+      case 'Back':
+        side = THREE.BackSide
+        break
+      case 'Double':
+      default:
+        side = THREE.DoubleSide
+    }
+
     if (!(this.curObj instanceof Material)) {
       switch (this.type) {
         case 'Basic':
-          this.curObj = new MeshBasicMaterial({color: this.color})
+          this.curObj = new MeshBasicMaterial({color: this.color, side: side})
           break
         case 'Standard':
-          this.curObj = new MeshStandardMaterial({color: this.color})
+          this.curObj = new MeshStandardMaterial({color: this.color, side: side})
           break
         case 'Normal':
         default:
-          this.curObj = new MeshNormalMaterial()
+          this.curObj = new MeshNormalMaterial({side: side})
       }
     }
     this.dbgPrt('createMAT', this.color, this.type, this.curObj.uuid)

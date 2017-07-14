@@ -1,11 +1,11 @@
 <template>
-  <!-- div><slot></slot></div -->
+  <div><slot name="orbit"></slot></div>
 </template>
 
 <script>
-import * as orbit from 'three-orbitcontrols'
-import { Camera } from 'three'
-import { assign } from '@/lib/util'
+import OrbitControls from 'three-orbitcontrols'
+// import { Camera } from 'three'
+// import { assign } from '@/lib/util'
 
 // import { Object3D } from '@/components/Object3D'
 // import { mapGetters } from 'vuex'
@@ -15,20 +15,16 @@ export default {
 //  mixins: [Object3D],
 
   props: {
-    obj: { type: orbit.OrbitControls },
+    obj: { type: OrbitControls },
     enable: { default: true },
     minPolarAngle: { default: 0 },
     maxPolarAngle: { default: Math.PI },
     enableDamping: { default: false }
-//    camera: { required: true, type: Camera }
-//    options: { default: {} }
-//    domEle: { required: true }
   },
 
   created () {
-    this.curObj = this.obj
-    this.dbgPrt('ORBIT create', this.$parent.curObj)
-    this.curObj = this.mkControls()
+    console.log('ORBIT')
+    this.$on('addCamera', this.addCamera)
   },
 
   data () {
@@ -41,31 +37,27 @@ export default {
   },
 
   computed: {
-    camera: function () {
-      return this.$parent.camera
-    },
     domEle: function () {
-      return null
+      return this.$parent.domElement
     },
     mkControls () {
       console.log('orbit real')
-      let controls
-      if (!(this.curObj instanceof Camera)) {
-        controls = new orbit.OrbitControls(this.camera)
-      }
-      controls.name = controls.name || controls.type
-      return controls
     }
   },
 
   methods: {
-    setCamera (camera) {
+    addCamera (camera) {
       console.log('ORBIT camera')
-      assign(this.curObj.position, this.position)
-      assign(this.curObj.rotation, this.rotation)
-      if (this.parentObj) {
-        this.parentObj.add(this.curObj)
+      this.camera = camera
+//      let domEle = this.$root.
+      if (!(this.curObj instanceof OrbitControls)) {
+        this.controls = new OrbitControls(this.camera, this.domEle)
       }
+      this.controls.name = this.name || this.controls.uuid
+      this.curObj = this.controls
+      this.$parent.$emit('addCamera', camera)
+//      assign(this.curObj.position, this.position)
+//      assign(this.curObj.rotation, this.rotation)
     },
 
     animate () {
