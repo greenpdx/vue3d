@@ -11,9 +11,9 @@
           </v3d-camera>
           <v3d-light color="#ffffff"></v3d-light>
           <v3d-mesh>
-            <v3d-geometry type="Box" args="20,20,20" ref="geo">
+            <v3d-geometry type="Cylinder" args="10,10,10,6,1,true" ref="geo">
               <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
-              <v3d-material type="Standard" color="#00ff00"></v3d-material>
+              <v3d-material type="Standard" color="#88ff88" side="Double"></v3d-material>
               <v3d-material type="Standard" color="#0000ff"></v3d-material>
               <v3d-material type="Standard" color="#ff00ff"></v3d-material>
               <v3d-material type="Standard" color="#ffff00"></v3d-material>
