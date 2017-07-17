@@ -19,13 +19,13 @@
                 <!-- v3d-material type="Standard" color="#ff00ff"></v3d-material>
                 <v3d-material type="Standard" color="#ffff00"></v3d-material -->
               </v3d-geometry>
-            </v3d-mesh -->
-            <!--v3d-mesh>
+            </v3d-mesh>
+            <v3d-mesh>
               <v3d-geometry type="Cylinder" args="25,0.1,10,6,1,true" ref="cyl">
                 <v3d-material type="Normal" color="#00ffff"></v3d-material>
                 <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
               </v3d-geometry>
-            </v3d-mesh -->
+            </v3d-mesh>
           </v3d-group>
         </v3d-scene>
       </v3d-renderer>

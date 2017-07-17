@@ -74,9 +74,9 @@ export default {
     addGeo (geo) {
       this.geo = geo
       this.curObj.geometry = geo
-      this.curObj.material = this.mats[0]
-      this.curObj.name = this.curObj.name || this.curObj.type
-      this.dbgPrt('mkMSH', this.curObj.uuid, this.mats[0].color, Object.assign({}, this.mats[0]))
+      this.curObj.material = this.mats[0].curObj
+      this.curObj.name = this.curObj.name || this.curObj.uuid
+      this.dbgPrt('mkMSH', this.curObj.uuid, this.mats[0].curObj.color, Object.assign({}, this.mats[0]))
       let edge = this.drawEdges(geo)
       edge.vue = this
       this.$parent.$emit('addChild', {curObj: edge})

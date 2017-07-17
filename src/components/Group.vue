@@ -79,7 +79,11 @@ export default {
     hover (val) {
       if (this.curObj.name === 'Group') {
         for (let chld of this.curObj.children) {
-          chld.hover(val)
+          console.log('CHLD', chld.type)
+          if (chld.vue.hover) {
+            console.log('CHLDhover', chld.type)
+            chld.vue.hover(val)
+          }
         }
       }
     },

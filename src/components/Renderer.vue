@@ -123,6 +123,7 @@ export default {
       let obj = null
       if (intersect.length > 0) {
         obj = intersect[0].object
+        obj = obj.parent
       }
       this.$store.dispatch('hover', obj)
       this.animate()
