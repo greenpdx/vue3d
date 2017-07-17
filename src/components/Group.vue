@@ -3,15 +3,15 @@
 </template>
 <script>
 import * as THREE from 'three'
-import Object3D from './Object3D'
+// import Object3D from './Object3D'
 // import bus from '@/lib/bus'
 
 const Group = THREE.Group
 
 export default {
   name: 'Group',
-  mixins: [Object3D],
-  components: [Object3D],
+//   mixins: [Object3D],
+//  components: [Object3D],
 
   props: {
     obj: {
@@ -44,14 +44,14 @@ export default {
     this.curObj.vue = this
     //    let { w, h } = this.$root.__rendererSize // fixme
     this.curObj.name = this.curObj.name || this.curObj.type
-    this.$on('addGroup', this.addGroup)
+    this.$on('addChild', this.addChild)
     this.$on('addMaterial', this.addMat)
     this.dbgPrt('createGRP', this.curObj.uuid)
   },
 
   mounted () {
     this.dbgPrt('mountGRP', this.curObj.uuid)
-    this.$parent.$emit('addGroup', this.curObj)
+    this.$parent.$emit('addChild', this)
   },
 
   updated () {
@@ -64,9 +64,9 @@ export default {
       this.dbgPrt('addMatGRP', mat.uuid)
       this.mats.push(mat)
     },
-    addGroup (group) {    // also Mesh
-      this.grps.push(group)
-      this.curObj.add(group)
+    addChild (child) {    // also Mesh
+      this.grps.push(child)
+      this.curObj.add(child.curObj)
     },
     onHover () {
       let self = this

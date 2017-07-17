@@ -110,7 +110,7 @@ export default {
       let mouse = {}
       mouse.x = ((evt.layerX - dom.x) / dom.w) * 2 - 1
       mouse.y = -((evt.layerY - dom.y) / dom.h) * 2 + 1
-      this.raycast.setFromCamera(mouse, this.camera)
+      this.raycast.setFromCamera(mouse, this.camera.curObj)
       return this.raycast.intersectObjects(this.scene.children)
     },
     onMouseMove (evt) {

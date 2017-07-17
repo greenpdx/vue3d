@@ -1,16 +1,20 @@
+<template>
+  <div><slot></slot></div>
+</template>
+
 <script>
 import {
   Camera,
   PerspectiveCamera,
   OrthographicCamera
 } from 'three'
-import Object3D from './Object3D'
+// import Object3D from './Object3D'
 // import OrbitControls from 'three-orbitcontrols'  // move to own component
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Camera',
-  mixins: [Object3D],
+//  mixins: [Object3D],
 
   props: {
     obj: {

@@ -18,7 +18,7 @@ export default {
   data () {
     return {
       lights: {},
-      chlds: {},
+      childs: {},
       cameras: {}
     }
   },
@@ -35,6 +35,7 @@ export default {
 
     this.$on('addCamera', this.addCamera)
     this.$on('addLight', this.addLight)
+    this.$on('addChild', this.addChild)
     this.dbgPrt('createSCN', this.id, this.curObj)
   },
 
@@ -55,6 +56,11 @@ export default {
       this.dbgPrt('addLightSCN', light.id, this.curObj)
       this.lights[light.name] = light
       this.curObj.add(light.curObj)
+    },
+    addChild (child) {
+      this.dbgPrt('addChildSCN', child.id, this.curObj)
+      this.childs[child.name] = child
+      this.curObj.add(child.curObj)
     }
   },
 
