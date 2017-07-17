@@ -1,5 +1,5 @@
 <template>
-  <div><slot name="orbit"></slot></div>
+  <div><slot></slot></div>
 </template>
 
 <script>
@@ -47,11 +47,11 @@ export default {
 
   methods: {
     addCamera (camera) {
-      console.log('ORBIT camera')
+      console.log('ORBIT camera', camera)
       this.camera = camera
 //      let domEle = this.$root.
       if (!(this.curObj instanceof OrbitControls)) {
-        this.controls = new OrbitControls(this.camera, this.domEle)
+        this.controls = new OrbitControls(this.camera.curObj, this.domEle)
       }
       this.controls.name = this.name || this.controls.uuid
       this.curObj = this.controls

@@ -16,8 +16,8 @@
               <v3d-geometry type="Cylinder" args="25,25,15,6,1,true" ref="cyl">
                 <v3d-material type="Standard" color="#00ff00" side="Double"></v3d-material>
                 <v3d-material type="Standard" color="#0000ff"></v3d-material>
-                <v3d-material type="Standard" color="#ff00ff"></v3d-material>
-                <v3d-material type="Standard" color="#ffff00"></v3d-material>
+                <!-- v3d-material type="Standard" color="#ff00ff"></v3d-material>
+                <v3d-material type="Standard" color="#ffff00"></v3d-material -->
               </v3d-geometry>
             </v3d-mesh>
             <v3d-mesh>

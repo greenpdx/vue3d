@@ -96,6 +96,9 @@ export default {
     id: function () {
       console.log('id func')
       return this.name || 'renderer'
+    },
+    scene3D: function () {
+      return this.scene.curObj
     }
   },
 
@@ -110,8 +113,9 @@ export default {
       let mouse = {}
       mouse.x = ((evt.layerX - dom.x) / dom.w) * 2 - 1
       mouse.y = -((evt.layerY - dom.y) / dom.h) * 2 + 1
-      this.raycast.setFromCamera(mouse, this.camera)
-      return this.raycast.intersectObjects(this.scene.children)
+      this.raycast.setFromCamera(mouse, this.camera.curObj)
+      let rslt = this.raycast.intersectObjects(this.scene3D.children, true)
+      return rslt
     },
     onMouseMove (evt) {
       evt.preventDefault()
@@ -119,6 +123,7 @@ export default {
       let obj = null
       if (intersect.length > 0) {
         obj = intersect[0].object
+        obj = obj.parent
       }
       this.$store.dispatch('hover', obj)
       this.animate()

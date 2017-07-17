@@ -1,16 +1,19 @@
+<template>
+  <div><slot></slot></div>
+</template>
 <script>
 import {
   Light,
   AmbientLight,
   DirectionalLight
 } from 'three'
-import Object3D from './Object3D'
+// import Object3D from './Object3D'
 // import bus from '@/lib/bus'
 
 export default {
   name: 'Light',
-  mixins: [Object3D],
-  components: [Object3D],
+//  mixins: [Object3D],
+//  components: [Object3D],
 
   props: {
     obj: {

@@ -59,11 +59,11 @@ export default {
     }
     this.dbgPrt('createMAT', this.color, this.type, this.curObj.uuid)
     this.curObj.vue = this
-    this.curObj.name = this.curObj.name || this.curObj.type
+    this.curObj.name = this.curObj.name || this.curObj.uuid
   },
 
   mounted () {
-    this.$parent.$emit('addMaterial', this.curObj)
+    this.$parent.$emit('addMaterial', this)
   }
 
 }

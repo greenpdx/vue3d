@@ -3,7 +3,7 @@
 </template>
 <script>
 import * as THREE from 'three'
-import Object3D from './Object3D'
+// import Object3D from './Object3D'
 // import Group from './Group'
 // import bus from '@/lib/bus'
 
@@ -11,9 +11,12 @@ const Mesh = THREE.Mesh
 
 export default {
   name: 'Mesh',
-  mixins: [Object3D],
+//  mixins: [Object3D],
 
   props: {
+    obj: {
+      type: Object
+    },
     drawEdge: {
       type: Boolean,
       default: true
@@ -30,7 +33,9 @@ export default {
 
   data () {
     return {
-      geo: null
+      geo: null,
+      mats: [],
+      childs: []
     }
   },
 
@@ -46,12 +51,13 @@ export default {
     this.curObj.name = this.curObj.name || this.curObj.type
     this.$on('setGeometry', this.addGeo)
     this.$on('addMaterial', this.addMat)
+    this.$on('addChild', this.addChild)
     this.dbgPrt('createMSH', this.curObj.uuid)
   },
 
   mounted () {
     this.dbgPrt('mountMSH', this.curObj.uuid)
-    this.$parent.$emit('addMesh', this.curObj)
+    this.$parent.$emit('addChild', this)
   },
 
   updated () {
@@ -68,16 +74,21 @@ export default {
     addGeo (geo) {
       this.geo = geo
       this.curObj.geometry = geo
-      this.curObj.material = this.mat[0]
-      this.curObj.name = this.curObj.name || this.curObj.type
-      this.dbgPrt('mkMSH', this.curObj.uuid, this.mat[0].color, Object.assign({}, this.mat[0]))
+      this.curObj.material = this.mats[0].curObj
+      this.curObj.name = this.curObj.name || this.curObj.uuid
+      this.dbgPrt('mkMSH', this.curObj.uuid, this.mats[0].curObj.color, Object.assign({}, this.mats[0]))
       let edge = this.drawEdges(geo)
       edge.vue = this
-      this.$parent.$emit('addMesh', edge)
+      this.$parent.$emit('addChild', {curObj: edge})
     },
     addMat (mat) {
-      this.dbgPrt('addMatMSH', mat.uuid)
-      this.mat.push(mat)
+      this.dbgPrt('addMatMSH', mat.curObj.name)
+      this.mats.push(mat)
+    },
+    addChild (child) {
+      this.dbgPrt('addChldMSH', child.uuid)
+      this.chlds.push(child)
+      this.curObj.add(child.curObj)
     },
     onClick: function (evt) {
       this.dbgPrt(evt)
@@ -104,9 +115,9 @@ export default {
       let mat = obj.material
       this.dbgPrt(val, Object.assign({}, mat))
       if (val) {
-        obj.material = this.mat[5]
-      } else {
         obj.material = this.mat[1]
+      } else {
+        obj.material = this.mat[0]
       }
     }
   }
