@@ -34,6 +34,8 @@ export default {
     },
     type: {
       default: 'Perspective'
+    },
+    position: {
     }
   },
 
@@ -45,6 +47,7 @@ export default {
 
   created () {
     this.curObj = this.obj
+    this.dbgPrt(typeof this.position, this.position)
     //    let { w, h } = this.$root.__rendererSize // fixme
     if (!(this.curObj instanceof Camera)) {
       switch (this.type) {

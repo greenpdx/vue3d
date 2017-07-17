@@ -96,6 +96,9 @@ export default {
     id: function () {
       console.log('id func')
       return this.name || 'renderer'
+    },
+    scene3D: function () {
+      return this.scene.curObj
     }
   },
 
@@ -111,7 +114,8 @@ export default {
       mouse.x = ((evt.layerX - dom.x) / dom.w) * 2 - 1
       mouse.y = -((evt.layerY - dom.y) / dom.h) * 2 + 1
       this.raycast.setFromCamera(mouse, this.camera.curObj)
-      return this.raycast.intersectObjects(this.scene.children)
+      let rslt = this.raycast.intersectObjects(this.scene3D.children, true)
+      return rslt
     },
     onMouseMove (evt) {
       evt.preventDefault()

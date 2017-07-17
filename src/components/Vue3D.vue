@@ -7,9 +7,9 @@
       <h2>{{ selectIt }}</h2>
       <v3d-renderer ref="renderer" size="800,800">
         <v3d-scene ref="scene">
-          <!-- v3d-orbit-controls ref="controls" -->
+          <v3d-orbit-controls ref="controls">
             <v3d-camera ref="camera0" position="{z: 150}"></v3d-camera>
-          <!-- /v3d-orbit-controls -->
+          </v3d-orbit-controls>
           <v3d-light color="#ffffff"></v3d-light>
           <v3d-group location="{0,0,0}">
             <v3d-mesh>
