@@ -25,7 +25,7 @@ const mutations = {
     if ((!self && !state.hoverObj) || (self && state.hoverObj && self.uuid === state.hoverObj.uuid)) {
       return
     }
-    console.log('HOVER', (self) ? self.id3d : 'null')
+//    console.log('HOVER', (self) ? self.id3d : 'null')
     if (!self || (state.hoverObj && self.uuid !== state.hoverObj.uuid)) {
       state.hoverObj.hover(false)
       state.hoverObj = null

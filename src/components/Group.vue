@@ -17,7 +17,7 @@ export default {
     obj: {
 
     },
-    location: {
+    position: {
       default: '{"z":0,"y":0."y":0}'
     }
   },
@@ -26,7 +26,6 @@ export default {
     return {
       grps: [],
       mats: [],
-      loc: {x: 0, y: 0, z: 0},
       id: ''
     }
   },
@@ -42,6 +41,7 @@ export default {
     this.curObj.vue = this
     this.id3d = this.curObj.name || this.curObj.uuid
     this.curObj.name = this.id3d
+    Object.assign(this.curObj.position, this.pos)
     this.$on('addChild', this.addChild)
     this.$on('addMaterial', this.addMat)
     this.dbgPrt('createGrp', this.id3d)
@@ -56,6 +56,14 @@ export default {
   updated () {
     this.dbgPrt('updateGRP', this.id3d)
 //    this.$parent.$emit('addGroup', this.curObj)
+  },
+
+  computed: {
+    pos: function () {
+      let ary = JSON.parse(this.position.replace(/'/g, '"'))
+      console.log('GRPOS', ary)
+      return ary
+    }
   },
 
   methods: {
@@ -77,7 +85,7 @@ export default {
       this.$store.dispatch('select', { self })
     },
     hover (val) {
-      if (this.curObj.name === 'Group') {
+      if (this.curObj.type === 'Group') {
         for (let chld of this.curObj.children) {
           console.log('CHLD', chld.type)
           if (chld.vue.hover) {

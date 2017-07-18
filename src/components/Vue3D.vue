@@ -11,16 +11,15 @@
             <v3d-camera ref="camera0" position="{z: 150}"></v3d-camera>
           </v3d-orbit-controls>
           <v3d-light color="#ffffff"></v3d-light>
-          <v3d-group position="{'x': 0, 'y': 0, 'z': 0}">
-            <!-- v3d-mesh visible="false">
-              <v3d-geometry type="Cylinder" args="25,25,15,6,1,true" ref="cyl">
-                <v3d-material type="Standard" color="#00ff00" side="Double"></v3d-material>
-                <v3d-material type="Standard" color="#0000ff"></v3d-material>
-                <!-- v3d-material type="Standard" color="#ff00ff"></v3d-material>
-                <v3d-material type="Standard" color="#ffff00"></v3d-material -->
-              <!-- /v3d-geometry>
-            </v3d-mesh -->
-            <v3d-mesh edge='false'>
+          <v3d-group position="{'x':0,'y':10,'z':0}">
+            <v3d-mesh visible="false" position="{'y':0}">
+              <v3d-geometry type="Cylinder" args="20,20,15,6,1,true" ref="cyl"></v3d-geometry>
+              <v3d-material type="Standard" color="#00ff00" side="Double"></v3d-material>
+              <v3d-material type="Standard" color="#0000ff"></v3d-material>
+              <!-- v3d-material type="Standard" color="#ff00ff"></v3d-material>
+              <v3d-material type="Standard" color="#ffff00"></v3d-material -->
+            </v3d-mesh>
+            <v3d-mesh edge='false' position="{'y':2.5}">
               <v3d-geometry type="Cylinder" args="20,0.1,10,6,1,true" ref="cyl"></v3d-geometry>
               <v3d-material type="Normal" color="#00ffff"></v3d-material>
               <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
@@ -29,7 +28,7 @@
         </v3d-scene>
       </v3d-renderer>
       <div v-show="showInfo" class="infopop" ref="infopop">
-        <div >{{ objInfo.uuid }}</div>
+        <div >{{ objInfo }}</div>
       </div>
     </div>
     <div class="right">
@@ -83,8 +82,6 @@ export default {
 
   created () {
     this.version3d = THREE.REVISION
-    let http = Vue.http
-    console.log('HTTP', http)
     let rand = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER - 1))
     this.mailto = this.mailto + document.referrer + '&body=Please Keep; ' + rand
     this.setThree3d(this)
@@ -108,7 +105,7 @@ export default {
     }),
     showInfo: function () {
       if (this.hoverObj !== null) {
-        this.objInfo = this.hoverObj
+        this.objInfo = this.hoverObj.id3d
         return true
       } else {
         this.objInfo = ''

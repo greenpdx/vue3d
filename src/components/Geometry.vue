@@ -23,7 +23,6 @@ export default {
       default: 1
     },
     args: {
-//      type: Array,
       default: ''
     }
   },
@@ -35,9 +34,7 @@ export default {
   created () {
     this.curObj = this.obj
     let obj = null
-    //    let { w, h } = this.$root.__rendererSize // fixme
     if (!(this.curObj instanceof Geometry)) {
-      this.dbgPrt('geoArgs', this.type, this.args.split(','))
       let args = this.args.split(',').map(Number)
       if (this.type) {
         switch (this.type) {
@@ -70,7 +67,6 @@ export default {
     addMaterial (mat) {
       this.dbgPrt('addMat2Geo', mat.id3d, this.id3d)
       this.curObj.material.push(mat)
-//      this.$parent.$emit('addMaterial', mat)
     }
   }
 }

@@ -132,8 +132,8 @@ export default {
       evt.preventDefault()
       let intersect = this._getIntersect(evt)
       let obj = null
-      if (intersect.length > 0) {
-        obj = intersect[0].object.vue
+      if (intersect.length > 0) {  // this app the selection is group
+        obj = intersect[0].object.vue.$parent
       }
       this.$store.dispatch('hover', obj)
       this.animate()

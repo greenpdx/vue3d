@@ -18,7 +18,7 @@ export default {
       type: Object
     },
     edge: {
-      type: String,
+//      type: String,
       default: 'true'
     },
     geometry: {
@@ -52,7 +52,7 @@ export default {
     this.$on('setGeometry', this.addGeo)
     this.$on('addMaterial', this.addMat)
     this.$on('addChild', this.addChild)
-    this.dbgPrt('createMSH')
+    this.dbgPrt('createMSH', this.id3d)
   },
 
   mounted () {
@@ -63,18 +63,12 @@ export default {
     this.id3d = this.name || this.curObj.uuid
     this.curObj.name = this.id3d
     if (this.hasEdge) {
-      this.edge = this.drawEdges(this.geo.curObj)
-      this.edge.vue = this
-      this.curObj.add(this.edge)
+      this.edgeObj = this.drawEdges(this.geo.curObj)
+      this.edgeObj.vue = this
+      this.curObj.add(this.edgeObj)
     }
-    let pos = this.curObj.position
-    console.log('POS', pos)
-//    this.dbgPrt('mkMSH', this.curObj.uuid, this.mats[0].curObj.color, Object.assign({}, this.mats[0]))
+    Object.assign(this.curObj.position, this.pos)
 
-//    this.$parent.$emit('addChild', {curObj: edge})
-    //    this.curObj.position.x = this.pos.x
-// this.curObj.position.y = 10
-    //    this.curObj.position.z = this.pos.z
     this.curObj.visible = this.visible
     this.dbgPrt('mountMsh', oldid, this.id3d)
     this.$parent.$emit('addChild', this)
@@ -90,9 +84,8 @@ export default {
       return (this.edge === 'true')
     },
     pos: function () {    //  position can be string, object
-      let pos = new THREE.Vector3(0, 0, 0)
+      let pos = {}
       let props = this.position
-      console.log(props, typeof this.position)
       switch (typeof props) {
         case 'undefined':
           pos.x = 0
@@ -103,9 +96,7 @@ export default {
           let str = props.replace(/'/g, '"')
           try {
             let obj = JSON.parse(str)
-            pos.x = obj.x || pos.x
-            pos.y = obj.y || pos.y
-            pos.z = obj.z || pos.z
+            Object.assign(pos, obj)
           } catch (err) {
             console.log(props, err)
           }
