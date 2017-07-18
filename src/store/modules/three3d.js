@@ -4,7 +4,7 @@ const state = {
   renderer: null,
   camera: null,
   orbit: null,
-  mats: []
+  mats: {}
 }
 
 const getters = {
@@ -43,7 +43,7 @@ const mutations = {
     }
   },
   MATS (state, mat) {
-    state.mats.push(mat)
+    state.mats[mat.name] = mat
   }
 }
 

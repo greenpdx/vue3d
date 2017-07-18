@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import three3d from './modules/three3d.js'
+import three3d from './modules/three3d'
 
 // const debug = process.env.NODE_ENV !== 'production'
 

@@ -10,6 +10,7 @@
 /* eslint-disable no-duplicate-imports */
 import { WebGLRenderer } from 'three'
 import * as THREE from 'three'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Renderer',
@@ -76,12 +77,15 @@ export default {
     this.$on('addScene', this.addScene)
     this.$on('addCamera', this.addCamera)
     this.dbgPrt('createREN', this.id, this.curObj)
+    this.setRenderer(this)
   },
 
   mounted () {
     console.log('REN MNT', this.domEle)
     this.$refs.container.appendChild(this.domEle)
     this.animate()
+    console.log('STORE REN', this.renderer)
+//    this.setRenderer(this)
   },
 
   beforeDestroy () {
@@ -90,6 +94,9 @@ export default {
   },
 
   computed: {
+    ...mapGetters('three3d', {
+      renderer: 'renderer'
+    }),
     domElement: function () {
       return this.domEle
     },
@@ -103,6 +110,9 @@ export default {
   },
 
   methods: {
+    ...mapActions('three3d', [
+      'setRenderer'
+    ]),
     _getIntersect (evt) {
       let dom = {
         x: this.domEle.offsetLeft,

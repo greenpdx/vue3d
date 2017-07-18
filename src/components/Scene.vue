@@ -3,6 +3,7 @@
 </template>
 <script>
 import { Scene } from 'three'
+import { mapActions } from 'vuex'
 // import Object3D from './Object3D'
 // import bus from '@/lib/bus'
 
@@ -37,6 +38,7 @@ export default {
     this.$on('addLight', this.addLight)
     this.$on('addChild', this.addChild)
     this.dbgPrt('createSCN', this.id, this.curObj)
+    this.setScene(this)
   },
 
   mounted () {
@@ -46,6 +48,9 @@ export default {
   },
 
   methods: {
+    ...mapActions('three3d', [
+      'setScene'
+    ]),
     addCamera (camera) {
       this.dbgPrt('addCamSCN', camera.curObj.uuid)
       this.cameras[camera.name] = camera
