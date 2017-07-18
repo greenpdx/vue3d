@@ -59,7 +59,8 @@ export default {
     this.dbgPrt('mshArgs', this.geo.curObj.name, this.mats[0].curObj.name)
     this.curObj = new Mesh(this.geo.curObj, this.mats[0].curObj)
     this.curObj.vue = this
-
+    let oldid = this.id3d
+    this.id3d = this.name || this.curObj.uuid
     this.curObj.name = this.id3d
     this.edge = this.drawEdges(this.geo.curObj)
     this.edge.vue = this
@@ -73,7 +74,7 @@ export default {
 // this.curObj.position.y = 10
     //    this.curObj.position.z = this.pos.z
     this.curObj.visible = this.visible
-    this.dbgPrt('mountMsh', this.id3d)
+    this.dbgPrt('mountMsh', oldid, this.id3d)
     this.$parent.$emit('addChild', this)
   },
 
@@ -124,13 +125,6 @@ export default {
     addGeo (geo) {
       this.dbgPrt('addGeo2Msh', geo.id3d)
       this.geo = geo
-//      this.curObj.geometry = geo
-//      this.curObj.material = this.mats[0].curObj
-//      this.curObj.name = this.curObj.name || this.curObj.uuid
-//      this.dbgPrt('mkMSH', this.curObj.uuid, this.mats[0].curObj.color, Object.assign({}, this.mats[0]))
-//      let edge = this.drawEdges(geo)
-//      edge.vue = this
-//      this.$parent.$emit('addChild', {curObj: edge})
     },
     addMat (mat) {
       this.dbgPrt('addMat2Msh', mat.id3d)
@@ -153,8 +147,7 @@ export default {
       this.$store.dispatch('select', { self })
     },
     hover (val) {
-      let mat = this.curObj.material
-      this.dbgPrt(val, this.curObj.uuid, mat)
+      this.dbgPrt('hoverObj', val, this.id3d)
       if (val) {
         this.curObj.material.wireframe = true
       } else {
@@ -163,12 +156,11 @@ export default {
     },
     select (val) {
       let obj = this.curObj
-      let mat = obj.material
-      this.dbgPrt(val, Object.assign({}, mat))
+      this.dbgPrt('selectObj', val, this.id3d)
       if (val) {
-        obj.material = this.mat[1]
+        obj.material = this.mat[1].curObj
       } else {
-        obj.material = this.mat[0]
+        obj.material = this.mat[0].curObj
       }
     }
   }

@@ -25,23 +25,23 @@ const mutations = {
     if ((!self && !state.hoverObj) || (self && state.hoverObj && self.uuid === state.hoverObj.uuid)) {
       return
     }
-    console.log('HOVER', self)
+    console.log('HOVER', (self) ? self.id3d : 'null')
     if (!self || (state.hoverObj && self.uuid !== state.hoverObj.uuid)) {
-      state.hoverObj.vue.hover(false)
+      state.hoverObj.hover(false)
       state.hoverObj = null
     }
     if (self) {
       state.hoverObj = self
-      self.vue.hover(true)
+      self.hover(true)
     }
   },
   SELECT (state, self) {
     if (self && state.selectObj === self) {
-      state.selectObj.vue.select(false)
+      state.selectObj.select(false)
       self = null
     }
     if (self && self !== state.selectObj) {
-      self.vue.select(true)
+      self.select(true)
     }
     state.selectObj = self
   },

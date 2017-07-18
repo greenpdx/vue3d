@@ -133,7 +133,7 @@ export default {
       let intersect = this._getIntersect(evt)
       let obj = null
       if (intersect.length > 0) {
-        obj = intersect[0].object
+        obj = intersect[0].object.vue
       }
       this.$store.dispatch('hover', obj)
       this.animate()
