@@ -45,7 +45,8 @@ export default {
     return {
       curObj: null,
       lights: [],
-      domEle: null
+      domEle: null,
+      id3d: ''
     }
   },
 
@@ -59,7 +60,9 @@ export default {
       this.curObj = new WebGLRenderer({ antialias: this.antialias, alpha: this.alpha })
     }
     this.curObj.vue = this
-    this.curObj.name = this.name || this.curObj.uuid
+    this.id3d = this.name || Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16)
+
+    this.curObj.name = this.id3d
 //    this.curObj.setSize(this.size.w, this.size.h)
     this.curObj.setSize(800, 800)
 //    this.$root.__rendererSize = this.size3d // fixme
@@ -76,16 +79,14 @@ export default {
 
     this.$on('addScene', this.addScene)
     this.$on('addCamera', this.addCamera)
-    this.dbgPrt('createREN', this.id, this.curObj)
+    this.dbgPrt('createRen', this.id3d)
     this.setRenderer(this)
   },
 
   mounted () {
-    console.log('REN MNT', this.domEle)
+    this.dbgPrt('mountRen', this.id3d)
     this.$refs.container.appendChild(this.domEle)
     this.animate()
-    console.log('STORE REN', this.renderer)
-//    this.setRenderer(this)
   },
 
   beforeDestroy () {
@@ -163,7 +164,7 @@ export default {
 
     addScene (scene) {
       this.scene = scene
-      this.dbgPrt('RENaddScene', scene.id, Object.assign({}, this.curObj))
+      this.dbgPrt('addScn2Ren', scene.id3d, this.id3d)
       if (process.env.NODE_ENV === 'development') {
         window.THREE = THREE
         window.scene = scene.curObj
@@ -171,21 +172,10 @@ export default {
     },
 
     addCamera (camera) {
-      this.dbgPrt('RENaddCam', camera.id, this.curObj)
+      this.dbgPrt('addCam2Ren', camera.id3d, this.id3d)
       this.camera = camera
-//      this.animate()
     },
-//    setCamera (camera) {
-//      this.camera = camera
-//      console.log('setCamera')
-//    },
-//    setLight (light) {
-//      console.log('setLight')
-//    },
-//    setControls (controls) {
-//      this.controls = controls
-//      console.log('setControl')
-//    },
+
     animate () {
       if (!this.camera) {
         this.dbgPrt('RENnoCAM')

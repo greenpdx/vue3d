@@ -29,6 +29,12 @@ export default {
     parameters: { }
   },
 
+  data () {
+    return {
+      id3d: ''
+    }
+  },
+
   created () {
     this.curObj = this.obj
     let side = THREE.DoubleSide
@@ -57,12 +63,15 @@ export default {
           this.curObj = new MeshNormalMaterial({side: side})
       }
     }
-    this.dbgPrt('createMAT', this.color, this.type, this.curObj.uuid)
     this.curObj.vue = this
-    this.curObj.name = this.curObj.name || this.curObj.uuid
+
+    this.id3d = this.name || this.curObj.uuid
+    this.curObj.name = this.id3d
+    this.dbgPrt('createMAT', this.color, this.id3d)
   },
 
   mounted () {
+    this.dbgPrt('mountedMAT', this.id3d)
     this.$parent.$emit('addMaterial', this)
   }
 

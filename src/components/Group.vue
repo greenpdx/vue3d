@@ -37,34 +37,34 @@ export default {
   },
   created () {
     this.curObj = this.obj
-    this.mat = []
-//    this.loc = this.cleanObj(this.location)
 
     this.curObj = new Group()
     this.curObj.vue = this
-    //    let { w, h } = this.$root.__rendererSize // fixme
-    this.curObj.name = this.curObj.name || this.curObj.type
+    this.id3d = this.curObj.name || this.curObj.uuid
+    this.curObj.name = this.id3d
     this.$on('addChild', this.addChild)
     this.$on('addMaterial', this.addMat)
-    this.dbgPrt('createGRP', this.curObj.uuid)
+    this.dbgPrt('createGrp', this.id3d)
   },
 
   mounted () {
-    this.dbgPrt('mountGRP', this.curObj.uuid)
+    this.dbgPrt('mountGrp', this.id3d)
+//    this.curObj.position.y = 10
     this.$parent.$emit('addChild', this)
   },
 
   updated () {
-    this.dbgPrt('updateGRP')
+    this.dbgPrt('updateGRP', this.id3d)
 //    this.$parent.$emit('addGroup', this.curObj)
   },
 
   methods: {
     addMat (mat) {
-      this.dbgPrt('addMatGRP', mat.uuid)
+      this.dbgPrt('addMat2Grp', mat.uuid, this.id3d)
       this.mats.push(mat)
     },
     addChild (child) {    // also Mesh
+      this.dbgPrt('addChild2Grp', child.id3d, this.id3d)
       this.grps.push(child)
       this.curObj.add(child.curObj)
     },

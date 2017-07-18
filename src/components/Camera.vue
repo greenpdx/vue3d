@@ -41,7 +41,8 @@ export default {
 
   data () {
     return {
-      controls: null
+      controls: null,
+      id3d: ''
     }
   },
 
@@ -68,8 +69,9 @@ export default {
         this.controls = new OrbitControls(this.curObj, this.domEle)
       } */
     }
-    this.curObj.name = this.name || this.curObj.uuid
-    this.dbgPrt('createCAM', this.curObj.uuid, this)
+    this.id3d = this.name || this.curObj.uuid
+    this.curObj.name = this.id3d
+    this.dbgPrt('createCam', this.id3d)
     this.$parent.$emit('addCamera', this)
   },
 
@@ -79,7 +81,7 @@ export default {
 
   mounted () {
 //    this.$parent.$emit('addCamera', this)
-    this.dbgPrt('mountCAM', this)
+    this.dbgPrt('mountCam', this.id3d)
   },
 
   computed: {

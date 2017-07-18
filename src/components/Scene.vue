@@ -29,7 +29,9 @@ export default {
     if (!(this.curObj instanceof Scene)) {
       this.curObj = new Scene()
     }
-    this.curObj.name = this.name | this.curObj.uuid
+    this.id3d = this.name || Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16)
+
+    this.curObj.name = this.id3d
     this.lights = {}
     this.cameras = {}
     this.curObj.vue = this
@@ -37,12 +39,12 @@ export default {
     this.$on('addCamera', this.addCamera)
     this.$on('addLight', this.addLight)
     this.$on('addChild', this.addChild)
-    this.dbgPrt('createSCN', this.id, this.curObj)
+    this.dbgPrt('createScn', this.id3d)
     this.setScene(this)
   },
 
   mounted () {
-    this.dbgPrt('mountSCN', this.curObj.uuid)
+    this.dbgPrt('mountScn', this.curObj.uuid)
     this.$parent.$emit('addScene', this)
 //    this.$store.dispatch('sceneReady', this.curObj)
   },
@@ -52,18 +54,18 @@ export default {
       'setScene'
     ]),
     addCamera (camera) {
-      this.dbgPrt('addCamSCN', camera.curObj.uuid)
+      this.dbgPrt('addCam2Scn', camera.id3d, this.id3d)
       this.cameras[camera.name] = camera
       this.curObj.add(camera.curObj)
       this.$parent.$emit('addCamera', camera)
     },
     addLight (light) {
-      this.dbgPrt('addLightSCN', light.id, this.curObj)
+      this.dbgPrt('addLight2Scn', light.id3d, this.id3d)
       this.lights[light.name] = light
       this.curObj.add(light.curObj)
     },
     addChild (child) {
-      this.dbgPrt('addChildSCN', child.id, this.curObj)
+      this.dbgPrt('addChild2Scn', child.id3d, this.id3d)
       this.childs[child.name] = child
       this.curObj.add(child.curObj)
     }

@@ -30,6 +30,12 @@ export default {
     }
   },
 
+  data () {
+    return {
+      id3d: ''
+    }
+  },
+
   created () {
     this.curObj = this.obj
 
@@ -49,13 +55,14 @@ export default {
       }
     }
     this.curObj.vue = this
-    this.curObj.name = this.curObj.name || this.curObj.type
-    this.dbgPrt('creatLHT', this.curObj.uuid)
+    this.id3d = this.curObj.name || this.curObj.uuid
+    this.curObj.name = this.id3d
+    this.dbgPrt('createLight', this.id3d)
     this.$parent.$emit('addLight', this)
   },
 
   mounted () {
-    this.dbgPrt('mountLGT')
+    this.dbgPrt('mountLight', this.id3d)
 //    this.$parent.$emit('addLight', this.curObj)
   }
 }

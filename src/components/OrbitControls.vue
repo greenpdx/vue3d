@@ -23,39 +23,38 @@ export default {
   },
 
   created () {
-    console.log('ORBIT')
+    this.id3d = this.name || Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16)
+    this.dbgPrt('createOrbt', this.id3d)
     this.$on('addCamera', this.addCamera)
   },
 
   data () {
     return {
-      curObj: null
+      curObj: null,
+      id3d: ''
     }
   },
 
   mounted () {
+    this.dbgPrt('mountOrbt', this.id3d)
+    this.$parent.$emit('addCamera', this.camera)
   },
 
   computed: {
     domEle: function () {
       return this.$parent.domElement
-    },
-    mkControls () {
-      console.log('orbit real')
     }
   },
 
   methods: {
     addCamera (camera) {
-      console.log('ORBIT camera', camera)
       this.camera = camera
-//      let domEle = this.$root.
       if (!(this.curObj instanceof OrbitControls)) {
         this.controls = new OrbitControls(this.camera.curObj, this.domEle)
       }
-      this.controls.name = this.name || this.controls.uuid
+      this.controls.name = this.id3d
       this.curObj = this.controls
-      this.$parent.$emit('addCamera', camera)
+      this.dbgPrt('addCam2Orbt', camera.id3d, this.id3d)
 //      assign(this.curObj.position, this.position)
 //      assign(this.curObj.rotation, this.rotation)
     },

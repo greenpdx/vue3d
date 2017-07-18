@@ -11,20 +11,19 @@
             <v3d-camera ref="camera0" position="{z: 150}"></v3d-camera>
           </v3d-orbit-controls>
           <v3d-light color="#ffffff"></v3d-light>
-          <v3d-group location="{0,0,0}">
-            <v3d-mesh>
+          <v3d-group position="{'x': 0, 'y': 0, 'z': 0}">
+            <!-- v3d-mesh visible="false">
               <v3d-geometry type="Cylinder" args="25,25,15,6,1,true" ref="cyl">
                 <v3d-material type="Standard" color="#00ff00" side="Double"></v3d-material>
                 <v3d-material type="Standard" color="#0000ff"></v3d-material>
                 <!-- v3d-material type="Standard" color="#ff00ff"></v3d-material>
                 <v3d-material type="Standard" color="#ffff00"></v3d-material -->
-              </v3d-geometry>
-            </v3d-mesh>
+              <!-- /v3d-geometry>
+            </v3d-mesh -->
             <v3d-mesh>
-              <v3d-geometry type="Cylinder" args="25,0.1,10,6,1,true" ref="cyl">
-                <v3d-material type="Normal" color="#00ffff"></v3d-material>
-                <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
-              </v3d-geometry>
+              <v3d-geometry type="Cylinder" args="20,20,10,6,1,true" ref="cyl"></v3d-geometry>
+              <v3d-material type="Normal" color="#00ffff"></v3d-material>
+              <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
             </v3d-mesh>
           </v3d-group>
         </v3d-scene>
@@ -77,7 +76,8 @@ export default {
       selectIt: 'Double click to select cube, mouse down to rotate, wheel to zoom',
       about: '3D framework for vue ',
       linkto: 'https://github.com/greenpdx/vue3d',
-      mailto: 'mailto:savages@taxnvote.org?subject=vue3d%20Demo%20'
+      mailto: 'mailto:savages@taxnvote.org?subject=vue3d%20Demo%20',
+      grppos: {'x': 0, 'y': 10, 'z': 0}
     }
   },
 

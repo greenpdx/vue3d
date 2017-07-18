@@ -34,11 +34,10 @@ export default {
 
   created () {
     this.curObj = this.obj
-    console.log('createGEO')
     let obj = null
     //    let { w, h } = this.$root.__rendererSize // fixme
     if (!(this.curObj instanceof Geometry)) {
-      this.dbgPrt('MG', this.type, this.args.split(','))
+//      this.dbgPrt('MG', this.type, this.args.split(','))
       let args = this.args.split(',')
       if (this.type) {
         switch (this.type) {
@@ -56,18 +55,22 @@ export default {
       this.curObj.material = []
     }
     this.curObj.vue = this
-    this.curObj.name = this.curObj.name || this.curObj.type
+    this.id3d = this.name || this.curObj.uuid
+    this.curObj.name = this.id3d
     this.$on('addMaterial', this.addMaterial)
+    this.dbgPrt('createGeo', this.id3d)
   },
 
   mounted () {
-    this.$parent.$emit('setGeometry', this.curObj)
+    this.dbgPrt('mountGeo', this.id3d)
+    this.$parent.$emit('setGeometry', this)
   },
 
   methods: {
     addMaterial (mat) {
+      this.dbgPrt('addMat2Geo', mat.id3d, this.id3d)
       this.curObj.material.push(mat)
-      this.$parent.$emit('addMaterial', mat)
+//      this.$parent.$emit('addMaterial', mat)
     }
   }
 }
