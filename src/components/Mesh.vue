@@ -17,9 +17,9 @@ export default {
     obj: {
       type: Object
     },
-    drawEdge: {
-      type: Boolean,
-      default: true
+    edge: {
+      type: String,
+      default: 'true'
     },
     geometry: {
 //      required: true,
@@ -62,9 +62,11 @@ export default {
     let oldid = this.id3d
     this.id3d = this.name || this.curObj.uuid
     this.curObj.name = this.id3d
-    this.edge = this.drawEdges(this.geo.curObj)
-    this.edge.vue = this
-    this.curObj.add(this.edge)
+    if (this.hasEdge) {
+      this.edge = this.drawEdges(this.geo.curObj)
+      this.edge.vue = this
+      this.curObj.add(this.edge)
+    }
     let pos = this.curObj.position
     console.log('POS', pos)
 //    this.dbgPrt('mkMSH', this.curObj.uuid, this.mats[0].curObj.color, Object.assign({}, this.mats[0]))
@@ -84,6 +86,9 @@ export default {
   },
 
   computed: {
+    hasEdge: function () {
+      return (this.edge === 'true')
+    },
     pos: function () {    //  position can be string, object
       let pos = new THREE.Vector3(0, 0, 0)
       let props = this.position

@@ -37,8 +37,8 @@ export default {
     let obj = null
     //    let { w, h } = this.$root.__rendererSize // fixme
     if (!(this.curObj instanceof Geometry)) {
-//      this.dbgPrt('MG', this.type, this.args.split(','))
-      let args = this.args.split(',')
+      this.dbgPrt('geoArgs', this.type, this.args.split(','))
+      let args = this.args.split(',').map(Number)
       if (this.type) {
         switch (this.type) {
           case 'Cylinder':
