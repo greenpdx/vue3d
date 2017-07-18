@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+import three3d from './modules/three3d.js'
+
 // const debug = process.env.NODE_ENV !== 'production'
 
 const state = {
@@ -68,7 +70,7 @@ const actions = {
 }
 
 const modules = {
-
+  three3d: three3d
 }
 // strict = debug
 //  plugins: debug ? [createLogger()] : []

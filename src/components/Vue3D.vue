@@ -35,6 +35,7 @@
     </div>
     <div class="right">
       <h3>Template Code</h3>
+      <button v-on:click="vueClick($event)">Test</button>
     </div>
   </div>
 </template>
@@ -92,6 +93,12 @@ export default {
     let ele = this.$refs.infopop
     ele.style.top = this.mySize.top + 'px'
     ele.style.left = this.mySize.left + 'px'
+  },
+
+  methods: {
+    vueClick (evt) {
+      console.log(evt)
+    }
   },
 
   computed: {
