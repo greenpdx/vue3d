@@ -65,14 +65,14 @@ export default {
     this.curObj.name = this.id3d
 //    this.curObj.setSize(this.size.w, this.size.h)
     this.curObj.setSize(800, 800)
-//    this.$root.__rendererSize = this.size3d // fixme
+
     this.domEle = this.curObj.domElement
     this.curObj.setClearColor(this.clearColor)
     this.scene = null
     this.camera = null
 
     this.raycast = new THREE.Raycaster()
-//    this.curObj.uuid = 'renderer'
+
     this.domEle.addEventListener('mousemove', this.onMouseMove, true)
     this.domEle.addEventListener('dblclick', this.onClick, false)
     this.domEle.addEventListener('wheel', this.onWheel, false)
@@ -134,7 +134,6 @@ export default {
       let obj = null
       if (intersect.length > 0) {
         obj = intersect[0].object
-        obj = obj.parent
       }
       this.$store.dispatch('hover', obj)
       this.animate()
