@@ -35,13 +35,14 @@
     </div>
     <div class="right">
       <h3>Template Code</h3>
+      <button v-on:click="tstClick($event)">Test button</button>
     </div>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import * as THREE from 'three'
 
 // import Object3D from '@/components/Object3D'
@@ -86,6 +87,7 @@ export default {
     console.log('HTTP', http)
     let rand = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER - 1))
     this.mailto = this.mailto + document.referrer + '&body=Please Keep; ' + rand
+    this.setThree3d(this)
   },
 
   mounted () {
@@ -95,6 +97,11 @@ export default {
   },
 
   computed: {
+    ...mapGetters('three3d', {
+      renderer: 'renderer',
+      scene: 'scene',
+      cameraV: 'camera'
+    }),
     ...mapGetters({
       hoverObj: 'hoverObj',
       selectObj: 'selectObj'
@@ -118,6 +125,14 @@ export default {
         bottom: ren.offsetTop + ren.offsetHeight,
         right: ren.offsetLeft + ren.offsetWidth
       }
+    }
+  },
+  methods: {
+    ...mapActions('three3d', [
+      'setThree3d'
+    ]),
+    tstClick (evt) {
+      console.log(evt)
     }
   }
 }
