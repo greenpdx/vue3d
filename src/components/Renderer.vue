@@ -1,7 +1,11 @@
 <template>
-  <div>
-    <slot></slot>
-    <div ref="container"></div>
+  <div id="renderer">
+    <div id="canvas">
+      <slot></slot>
+      <div ref="container"></div>
+    </div>
+    <div id="overlay">
+    </div>
   </div>
 </template>
 
@@ -191,4 +195,16 @@ export default {
 
 </script>
 <style scoped>
+#renderer {
+  position:relative;
+}
+#overlay,
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#overlay {
+  z-index: 10;
+}
 </style>
