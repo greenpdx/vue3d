@@ -12,7 +12,7 @@
           </v3d-orbit-controls>
           <v3d-light color="#ffffff"></v3d-light>
           <v3d-group position="{'x':0,'y':0,'z':0}">
-            <v3d-grid>
+            <v3d-grid :data="data">
             </v3d-grid>
           </v3d-group>
         </v3d-scene>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import * as THREE from 'three'
 import axios from 'axios'
@@ -48,19 +48,22 @@ import OrbitControls from '@/components/OrbitControls'
 import Group from '@/components/Group'
 import Grid from '@/components/Grid'
 
-Vue.component('v3d-renderer', Renderer)
-Vue.component('v3d-scene', Scene)
-Vue.component('v3d-camera', Camera)
-Vue.component('v3d-light', Light)
-Vue.component('v3d-mesh', Mesh)
-Vue.component('v3d-geometry', Geometry)
-Vue.component('v3d-material', Material)
-Vue.component('v3d-orbit-controls', OrbitControls)
-Vue.component('v3d-group', Group)
-Vue.component('v3d-grid', Grid)
+import TestData from '@/assets/TestData'
 
 export default {
   name: 'vue3d',
+  components: {
+    'v3d-renderer': Renderer,
+    'v3d-scene': Scene,
+    'v3d-camera': Camera,
+    'v3d-light': Light,
+    'v3d-mesh': Mesh,
+    'v3d-geometry': Geometry,
+    'v3d-material': Material,
+    'v3d-orbit-controls': OrbitControls,
+    'v3d-group': Group,
+    'v3d-grid': Grid
+  },
   data () {
     return {
       msg: 'Vue and Three JS test project',
@@ -73,8 +76,15 @@ export default {
       mailto: 'mailto:savages@taxnvote.org?subject=vue3d%20Demo%20',
       grppos: {'x': 0, 'y': 10, 'z': 0},
       beacat: new Set(),
-      year: '2016'
+      year: '2016',
+      data: {}
     }
+  },
+
+  beforeCreate () {
+    this.td = new TestData()
+    this.data = this.td.genData()
+    console.log(this.data)
   },
 
   created () {
