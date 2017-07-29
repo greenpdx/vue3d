@@ -1,19 +1,39 @@
 <template>
-  <div>
-    <slot></slot>
-    <div ref="container"></div>
+  <div id="renderer">
+    <div id="canvas">
+      <slot></slot>
+      <div ref="container"></div>
+    </div>
+    <div id="overlay"
+      @click="clickIt($event)">
+      <worm-hole size="{x:800,y:800}"></worm-hole>
+      <!-- svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <polygon :points="outpoints0" :fill="clearColor" />
+        <polygon :points="outpoints1" :fill="clearColor" />
+        <g v-if="show0">
+          <polygon :points="edge00" fill="black" stroke="black"/>
+          <polygon :points="polypoints0" fill-opacity="0" stroke="black"/>
+        </g>
+        <polygon v-if="show0" :points="polypoints1" fill-opacity="0" stroke="black"/>
+      </svg -->
+    </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 /* global requestAnimationFrame */
 /* eslint-disable no-duplicate-imports */
 import { WebGLRenderer } from 'three'
 import * as THREE from 'three'
 import { mapActions, mapGetters } from 'vuex'
+import WormHole from './WormHole'
+
+Vue.component('v3d-worm-hole', WormHole)
 
 export default {
   name: 'Renderer',
+  components: {'worm-hole': WormHole},
 
   props: {
     size: {
@@ -46,7 +66,8 @@ export default {
       curObj: null,
       lights: [],
       domEle: null,
-      id3d: ''
+      id3d: '',
+      sz: {}
     }
   },
 
@@ -63,7 +84,14 @@ export default {
     this.id3d = this.name || Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16)
 
     this.curObj.name = this.id3d
-//    this.curObj.setSize(this.size.w, this.size.h)
+    if (typeof (this.size) === 'string') {
+      let str = this.size.replace(/'/gi, '"')
+      console.log(str)
+//      this.sz = JSON.parse(str)
+    } else {
+      this.sz = this.size
+    }
+//    this.curObj.setSize(this.sz.x, this.sz.y)
     this.curObj.setSize(800, 800)
 
     this.domEle = this.curObj.domElement
@@ -73,6 +101,8 @@ export default {
 
     this.raycast = new THREE.Raycaster()
 
+//    let odom = this.$el.children.overlay
+//    this.overlay = odom
     this.domEle.addEventListener('mousemove', this.onMouseMove, true)
     this.domEle.addEventListener('dblclick', this.onClick, false)
     this.domEle.addEventListener('wheel', this.onWheel, false)
@@ -114,6 +144,9 @@ export default {
     ...mapActions('three3d', [
       'setRenderer'
     ]),
+    clickIt (evt) {
+      console.log(evt)
+    },
     _getIntersect (evt) {
       let dom = {
         x: this.domEle.offsetLeft,
@@ -191,4 +224,19 @@ export default {
 
 </script>
 <style scoped>
+#renderer {
+  position: relative;
+}
+#overlay,
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#overlay {
+  z-index: 10;
+  width: 800px;
+  height: 800px;
+  pointer-events: none;
+}
 </style>

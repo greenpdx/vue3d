@@ -13,14 +13,14 @@
           <v3d-light color="#ffffff"></v3d-light>
           <v3d-group position="{'x':0,'y':10,'z':0}">
             <v3d-mesh visible="false" position="{'y':0}">
-              <v3d-geometry type="Cylinder" args="20,20,15,6,1,true" ref="cyl"></v3d-geometry>
+              <v3d-geometry type="Cylinder" args="20,20,15,6,1,true,1.57079632679" ref="cyl"></v3d-geometry>
               <v3d-material type="Standard" color="#00ff00" side="Double"></v3d-material>
               <v3d-material type="Standard" color="#0000ff"></v3d-material>
               <!-- v3d-material type="Standard" color="#ff00ff"></v3d-material>
               <v3d-material type="Standard" color="#ffff00"></v3d-material -->
             </v3d-mesh>
             <v3d-mesh edge='false' position="{'y':2.5}">
-              <v3d-geometry type="Cylinder" args="20,0.1,10,6,1,true" ref="cyl"></v3d-geometry>
+              <v3d-geometry type="Cylinder" args="20,0.1,10,6,1,true,1.58079632679" ref="cyl"></v3d-geometry>
               <v3d-material type="Normal" color="#00ffff"></v3d-material>
               <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
             </v3d-mesh>
@@ -66,6 +66,8 @@ Vue.component('v3d-group', Group)
 
 export default {
   name: 'vue3d',
+//  components: [{'v3d-renderer': Renderer}],
+
   data () {
     return {
       msg: 'Vue and Three JS test project',
