@@ -12,15 +12,13 @@
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 /* global requestAnimationFrame */
 /* eslint-disable no-duplicate-imports */
 import { WebGLRenderer } from 'three'
 import * as THREE from 'three'
 import { mapActions, mapGetters } from 'vuex'
 import WormHole from './WormHole'
-
-Vue.component('v3d-worm-hole', WormHole)
 
 export default {
   name: 'Renderer',

@@ -63,8 +63,8 @@ export default {
       edges0: [],
       edges1: [],
       hex0: '', // '-40,400 180,19 620,19 840,400 620,781.11 180,781',
-      show0: true,   // smallest inside
-      show1: true,    // largest outside
+      show0: false,   // smallest inside
+      show1: false,    // largest outside
       red: '#f00',
       green: '#0f0',
       black: '#000',
