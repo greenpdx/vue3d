@@ -14,11 +14,11 @@ import * as THREE from 'three'
 // import axios from 'axios'
 // import Object3D from './Object3D'
 // import bus from '@/lib/bus'
-import Hex from '@/components/Hex'
-import Group from '@/components/Group'
-import Mesh from '@/components/Mesh'
-import Geometry from '@/components/Geometry'
-import Material from '@/components/Material'
+import Hex from './Hex'
+import Group from './Group'
+import Mesh from './Mesh'
+import Geometry from './Geometry'
+import Material from './Material'
 
 export default {
   name: 'Grid',

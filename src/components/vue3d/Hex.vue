@@ -17,10 +17,10 @@ import * as THREE from 'three'
 // import Object3D from './Object3D'
 import Node from '@/api/Node'
 
-import Mesh from '@/components/Mesh'
-import Group from '@/components/Group'
-import Geometry from '@/components/Geometry'
-import Material from '@/components/Material'
+import Mesh from './Mesh'
+import Group from './Group'
+import Geometry from './Geometry'
+import Material from './Material'
 
 const SQRT3 = Math.sqrt(3)
 // const HEXLAYER = [0, 6, 18, 36, 60, 90, 126]
