@@ -4,8 +4,6 @@
 <script>
 import * as THREE from 'three'
 // import Object3D from './Object3D'
-// import Group from './Group'
-// import bus from '@/lib/bus'
 
 const Mesh = THREE.Mesh
 

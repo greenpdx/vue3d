@@ -7,15 +7,6 @@
     <div id="overlay"
       @click="clickIt($event)">
       <worm-hole size="{x:800,y:800}"></worm-hole>
-      <!-- svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-        <polygon :points="outpoints0" :fill="clearColor" />
-        <polygon :points="outpoints1" :fill="clearColor" />
-        <g v-if="show0">
-          <polygon :points="edge00" fill="black" stroke="black"/>
-          <polygon :points="polypoints0" fill-opacity="0" stroke="black"/>
-        </g>
-        <polygon v-if="show0" :points="polypoints1" fill-opacity="0" stroke="black"/>
-      </svg -->
     </div>
   </div>
 </template>

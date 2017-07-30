@@ -11,19 +11,9 @@
             <v3d-camera ref="camera0" position="{z: 150}"></v3d-camera>
           </v3d-orbit-controls>
           <v3d-light color="#ffffff"></v3d-light>
-          <v3d-group position="{'x':0,'y':10,'z':0}">
-            <v3d-mesh visible="false" position="{'y':0}">
-              <v3d-geometry type="Cylinder" args="20,20,15,6,1,true,1.57079632679" ref="cyl"></v3d-geometry>
-              <v3d-material type="Standard" color="#00ff00" side="Double"></v3d-material>
-              <v3d-material type="Standard" color="#0000ff"></v3d-material>
-              <!-- v3d-material type="Standard" color="#ff00ff"></v3d-material>
-              <v3d-material type="Standard" color="#ffff00"></v3d-material -->
-            </v3d-mesh>
-            <v3d-mesh edge='false' position="{'y':2.5}">
-              <v3d-geometry type="Cylinder" args="20,0.1,10,6,1,true,1.58079632679" ref="cyl"></v3d-geometry>
-              <v3d-material type="Normal" color="#00ffff"></v3d-material>
-              <v3d-material type="Standard" color="#ff0000" ref="mat"></v3d-material>
-            </v3d-mesh>
+          <v3d-group>
+            <v3d-grid :nodes="nodes">
+            </v3d-grid>
           </v3d-group>
         </v3d-scene>
       </v3d-renderer>
@@ -33,40 +23,48 @@
     </div>
     <div class="right">
       <h3>Template Code</h3>
-      <button v-on:click="tstClick($event)">Test button</button>
+      <button v-on:click="loadClick($event)">Load</button>
+      <button v-on:click="clrClick($event)">Clear</button>
+      <button v-on:click="dumpClick($event)">Dump</button>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import * as THREE from 'three'
+import axios from 'axios'
 
 // import Object3D from '@/components/Object3D'
-import Renderer from '@/components/Renderer'
-import Scene from '@/components/Scene'
-import Camera from '@/components/Camera'
-import Light from '@/components/Light'
-import Mesh from '@/components/Mesh'
-import Geometry from '@/components/Geometry'
-import Material from '@/components/Material'
-import OrbitControls from '@/components/OrbitControls'
-import Group from '@/components/Group'
+import Renderer from './vue3d/Renderer'
+import Scene from './vue3d/Scene'
+import Camera from './vue3d/Camera'
+import Light from './vue3d/Light'
+import Mesh from './vue3d/Mesh'
+import Geometry from './vue3d/Geometry'
+import Material from './vue3d/Material'
+import OrbitControls from './vue3d/OrbitControls'
+import Group from './vue3d/Group'
+import Grid from './vue3d/Grid'
 
-Vue.component('v3d-renderer', Renderer)
-Vue.component('v3d-scene', Scene)
-Vue.component('v3d-camera', Camera)
-Vue.component('v3d-light', Light)
-Vue.component('v3d-mesh', Mesh)
-Vue.component('v3d-geometry', Geometry)
-Vue.component('v3d-material', Material)
-Vue.component('v3d-orbit-controls', OrbitControls)
-Vue.component('v3d-group', Group)
+import TestData from '@/assets/TestData'
 
 export default {
   name: 'vue3d',
-//  components: [{'v3d-renderer': Renderer}],
+
+  components: {
+    'v3d-renderer': Renderer,
+    'v3d-scene': Scene,
+    'v3d-camera': Camera,
+    'v3d-light': Light,
+    'v3d-mesh': Mesh,
+    'v3d-geometry': Geometry,
+    'v3d-material': Material,
+    'v3d-orbit-controls': OrbitControls,
+    'v3d-group': Group,
+    'v3d-grid': Grid
+  },
 
   data () {
     return {
@@ -78,15 +76,32 @@ export default {
       about: '3D framework for vue ',
       linkto: 'https://github.com/greenpdx/vue3d',
       mailto: 'mailto:savages@taxnvote.org?subject=vue3d%20Demo%20',
-      grppos: {'x': 0, 'y': 10, 'z': 0}
+      grppos: {'x': 0, 'y': 10, 'z': 0},
+      beacat: new Set(),
+      year: '2016',
+      data: {},
+      nodes: []
     }
   },
 
+  beforeCreate () {
+    this.td = new TestData()
+    this.data = this.td.genData().top
+    console.log(this.data)
+  },
+
   created () {
+    this.td = new TestData()
+    this.data = this.td.genData().top
+    console.log(this.data)
+
+    this.beacat.add('Discretionary')
     this.version3d = THREE.REVISION
     let rand = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER - 1))
     this.mailto = this.mailto + document.referrer + '&body=Please Keep; ' + rand
     this.setThree3d(this)
+    this.nodes = this.data.children
+    console.log(this.nodes)
   },
 
   mounted () {
@@ -104,6 +119,10 @@ export default {
     ...mapGetters({
       hoverObj: 'hoverObj',
       selectObj: 'selectObj'
+    }),
+    ...mapGetters('nodes', {
+      dumpNodes: 'dumpNodes',
+      getNodes: 'nodes'
     }),
     showInfo: function () {
       if (this.hoverObj !== null) {
@@ -130,9 +149,46 @@ export default {
     ...mapActions('three3d', [
       'setThree3d'
     ]),
-    tstClick (evt) {
-      console.log(evt)
+    ...mapActions('nodes', [
+      'setNodes',
+      'clearNodes',
+      'getNodeById'
+    ]),
+    filterNodes (itm, idx) {
+      if (!this.beacat.has(itm.beacat)) {
+        return null
+      }
+      if (itm[this.year] === 0) {
+        return null
+      }
+
+      return {idx: idx, id: itm._id}
+    },
+    loadClick (evt) {
+      this.getData()
+    },
+    clrClick (evt) {
+      this.clearNodes()
+    },
+    dumpClick (evt) {
+      let nodes = this.getNodes
+      nodes.forEach((itm, idx) => {
+        let val = this.getNodeById(itm._id)
+        val.then(node => console.log(itm._id, node._id))
+      })
+      let itm = this.getNodeById(this.tstId)
+      itm.then(node => console.log(this.tstId, node._id))
+    },
+    getData () {
+      let self = this
+      axios.get('http://10.0.42.81:8181/docs/local/budget/full')
+        .then(response => {
+          let rslt = response.data
+          let data = rslt.data
+          self.setNodes(data)
+        })
     }
+
   }
 }
 </script>

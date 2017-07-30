@@ -1,10 +1,13 @@
 <template>
-  <div><slot></slot></div>
+  <div
+    v-on:addChild="addChild"
+    v-on:addMaterial="addMat">
+    <slot></slot>
+  </div>
 </template>
 <script>
 import * as THREE from 'three'
 // import Object3D from './Object3D'
-// import bus from '@/lib/bus'
 
 const Group = THREE.Group
 
@@ -41,9 +44,9 @@ export default {
     this.curObj.vue = this
     this.id3d = this.curObj.name || this.curObj.uuid
     this.curObj.name = this.id3d
-    Object.assign(this.curObj.position, this.pos)
+//    Object.assign(this.curObj.position, this.pos)
     this.$on('addChild', this.addChild)
-    this.$on('addMaterial', this.addMat)
+//    this.$on('addMaterial', this.addMat)
     this.dbgPrt('createGrp', this.id3d)
   },
 
@@ -61,7 +64,6 @@ export default {
   computed: {
     pos: function () {
       let ary = JSON.parse(this.position.replace(/'/g, '"'))
-      console.log('GRPOS', ary)
       return ary
     }
   },

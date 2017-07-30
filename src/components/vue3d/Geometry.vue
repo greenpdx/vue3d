@@ -34,8 +34,12 @@ export default {
   created () {
     this.curObj = this.obj
     let obj = null
+    console.log(typeof this.args, this.args)
     if (!(this.curObj instanceof Geometry)) {
-      let args = this.args.split(',').map(Number)
+      let args = this.args
+      if (typeof this.args === 'string') {
+        args = this.args.split(',').map(Number)
+      }
       if (this.type) {
         switch (this.type) {
           case 'Cylinder':
