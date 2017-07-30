@@ -1,5 +1,9 @@
 <template>
-  <div><slot></slot></div>
+  <div
+    v-on:addChild="addChild"
+    v-on:addMaterial="addMat">
+    <slot></slot>
+  </div>
 </template>
 <script>
 import * as THREE from 'three'
@@ -40,9 +44,9 @@ export default {
     this.curObj.vue = this
     this.id3d = this.curObj.name || this.curObj.uuid
     this.curObj.name = this.id3d
-    Object.assign(this.curObj.position, this.pos)
+//    Object.assign(this.curObj.position, this.pos)
     this.$on('addChild', this.addChild)
-    this.$on('addMaterial', this.addMat)
+//    this.$on('addMaterial', this.addMat)
     this.dbgPrt('createGrp', this.id3d)
   },
 

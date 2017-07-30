@@ -11,8 +11,12 @@
             <v3d-camera ref="camera0" position="{z: 150}"></v3d-camera>
           </v3d-orbit-controls>
           <v3d-light color="#ffffff"></v3d-light>
-          <v3d-group position="{'x':0,'y':0,'z':0}">
-            <v3d-grid :data="data">
+          <v3d-group>
+            <v3d-grid :nodes="nodes">
+            <!-- v3d-mesh>
+            <v3d-geometry type="Cylinder" args="20,20,15,6,1,true"></v3d-geometry>
+            <v3d-material type="Normal"></v3d-material>
+          </v3d-mesh -->
             </v3d-grid>
           </v3d-group>
         </v3d-scene>
@@ -77,22 +81,29 @@ export default {
       grppos: {'x': 0, 'y': 10, 'z': 0},
       beacat: new Set(),
       year: '2016',
-      data: {}
+      data: {},
+      nodes: []
     }
   },
 
   beforeCreate () {
     this.td = new TestData()
-    this.data = this.td.genData()
+    this.data = this.td.genData().top
     console.log(this.data)
   },
 
   created () {
+    this.td = new TestData()
+    this.data = this.td.genData().top
+    console.log(this.data)
+
     this.beacat.add('Discretionary')
     this.version3d = THREE.REVISION
     let rand = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER - 1))
     this.mailto = this.mailto + document.referrer + '&body=Please Keep; ' + rand
     this.setThree3d(this)
+    this.nodes = this.data.children
+    console.log(this.nodes)
   },
 
   mounted () {

@@ -1,33 +1,69 @@
 <template>
-  <div><slot></slot></div>
+  <div
+    v-on:addChild="addChild"
+    v-on:addMaterial="addMat">
+    <slot></slot>
+    <div v-for="(node, index) in children" >
+      <hex :node="node" v-bind:index="index">
+      </hex>
+    </div>
+  </div>
 </template>
 <script>
 import * as THREE from 'three'
-import axios from 'axios'
+// import axios from 'axios'
 // import Object3D from './Object3D'
 // import bus from '@/lib/bus'
-
-const Group = THREE.Group
+import Hex from '@/components/Hex'
+import Group from '@/components/Group'
+import Mesh from '@/components/Mesh'
+import Geometry from '@/components/Geometry'
+import Material from '@/components/Material'
 
 export default {
   name: 'Grid',
+  components: {
+    'mesh': Mesh,
+    'geometry': Geometry,
+    'material': Material,
+    'hex': Hex,
+    'v3d-group': Group
+  },
+/*  render: function (createElement) {
+    return createElement(
+      'mesh', [
+        createElement('geometry', {
+          attrs: {
+            type: 'Cylinder',
+            args: '20,20,15,6,1,true'
+          }
+        }),
+        createElement('material', {
+          attrs: {
+            type: 'Normal'
+          }
+        }),
+        this.$slots.default
+      ]
+    )
+  }, */
 //   mixins: [Object3D],
-//  components: [Object3D],
-
   props: {
     obj: {
 
     },
     position: {
       default: '{"x": 0, "y": 0, "z": 0}'
+    },
+    nodes: {
+//      type: []
     }
   },
 
   data () {
     return {
-      grps: [],
-      mats: [],
-      nodes: [],
+      node: null,
+      children: [],
       data: {}
     }
   },
@@ -38,14 +74,15 @@ export default {
   },
   created () {
     this.curObj = this.obj
-
-    this.curObj = new Group()
+    this.curObj = new THREE.Group()
     this.curObj.vue = this
     this.id3d = this.curObj.name || this.curObj.uuid
     this.curObj.name = this.id3d
-    Object.assign(this.curObj.position, this.pos)
+    this.children = this.nodes
+//    Object.assign(this.curObj.position, this.pos)
     this.$on('addChild', this.addChild)
-    this.$on('addMaterial', this.addMat)
+    console.log('NODE', this.nodes)
+    this.children = this.nodes
     this.dbgPrt('createGrd', this.id3d)
   },
 
@@ -68,20 +105,20 @@ export default {
   },
 
   methods: {
-    getData () {
+/*    getData () {
       axios.get('http://10.0.42.81:8181/docs')
         .then(response => {
           console.log('DATA', response)
         })
     },
-
+*/
     addMat (mat) {
-      this.dbgPrt('addMat2Grp', mat.uuid, this.id3d)
+      this.dbgPrt('addMat2Grd', mat.uuid, this.id3d)
       this.mats.push(mat)
     },
 
     addChild (child) {    // also Mesh
-      this.dbgPrt('addChild2Grp', child.id3d, this.id3d)
+      this.dbgPrt('addChild2Grd', child.id3d, this.id3d)
       this.grps.push(child)
       this.curObj.add(child.curObj)
     }
