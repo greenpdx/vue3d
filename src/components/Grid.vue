@@ -4,7 +4,7 @@
     v-on:addMaterial="addMat">
     <slot></slot>
     <div v-for="(node, index) in children" >
-      <hex :node="node" v-bind:index="index">
+      <hex :node="node" v-bind:index="index" scale="100000" size="5">
       </hex>
     </div>
   </div>
