@@ -79,6 +79,7 @@ export default {
     this.id3d = this.curObj.name || this.curObj.uuid
     this.curObj.name = this.id3d
     this.children = this.nodes
+    this.curObj.position.y = -40
 //    Object.assign(this.curObj.position, this.pos)
     this.$on('addChild', this.addChild)
     console.log('NODE', this.nodes)
