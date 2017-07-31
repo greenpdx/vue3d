@@ -4,7 +4,12 @@
     v-on:addMaterial="addMat">
     <slot></slot>
     <div v-for="(node, index) in children" >
-      <hex :node="node" v-bind:index="index" scale="100000" size="5">
+      <hex
+        :node="node"
+        v-bind:index="index"
+        scale="100000"
+        size="5"
+        @click="clickHex">
       </hex>
     </div>
   </div>
@@ -122,6 +127,10 @@ export default {
       this.dbgPrt('addChild2Grd', child.id3d, this.id3d)
       this.grps.push(child)
       this.curObj.add(child.curObj)
+    },
+
+    clickMe (evt) {
+      console.log(evt)
     }
   }
 }

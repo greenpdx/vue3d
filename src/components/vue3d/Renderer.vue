@@ -104,6 +104,7 @@ export default {
 
   mounted () {
     this.dbgPrt('mountRen', this.id3d)
+    console.log(this.$refs)
     this.$refs.container.appendChild(this.domEle)
     this.animate()
   },
@@ -145,7 +146,8 @@ export default {
       }
       let mouse = {}
       mouse.x = ((evt.layerX - dom.x) / dom.w) * 2 - 1
-      mouse.y = -((evt.layerY - dom.y) / dom.h) * 2 + 1
+      // - 40 is grid offest Grid.vue: 82
+      mouse.y = -((evt.layerY - dom.y - 40) / dom.h) * 2 + 1
       this.raycast.setFromCamera(mouse, this.camera.curObj)
       let rslt = this.raycast.intersectObjects(this.scene3D.children, true)
       return rslt
@@ -155,8 +157,12 @@ export default {
       let intersect = this._getIntersect(evt)
       let obj = null
       if (intersect.length > 0) {  // this app the selection is group
-        obj = intersect[0].object.vue.$parent
+//        obj = intersect[0].object.vue.$parent
+        obj = intersect[0].object.parent
+        console.log('hover', obj, obj.vue)
+        obj = obj.vue
       }
+      console.log('hover', obj)
       this.$store.dispatch('hover', obj)
       this.animate()
     },
@@ -165,15 +171,19 @@ export default {
       let intersect = this._getIntersect(evt)
       let obj = null
       if (intersect.length > 0) {
-        obj = intersect[0].object
+        obj = intersect[0].object.parent.vue
+        console.log('select', obj)
         this.$store.dispatch('select', obj)
+      } else {    // change mode
+        console.log('Change Mode')
       }
       this.animate()
     },
-    onWheel (evt) {
+    onWheel (evt) {  // change to wheel selected if mouse over
       let intersect = this._getIntersect(evt)
       if (intersect.length > 0) {
-        let obj = intersect[0].object
+        let obj = intersect[0].object.parent.vue
+        console.log('wheel', obj, this.selectObj)
         if (obj === this.selectObj) {
           evt.preventDefault()
           evt.stopImmediatePropagation()

@@ -23,28 +23,42 @@ const getters = {
 
 const mutations = {
   HOVER (state, self) {
-    if ((!self && !state.hoverObj) || (self && state.hoverObj && self.uuid === state.hoverObj.uuid)) {
+    if (self === null) {
+      if (state.hoverObj !== null) {
+        state.hoverObj.hover(false)
+        state.hoverObj = null
+      }
       return
     }
-//    console.log('HOVER', (self) ? self.id3d : 'null')
-    if (!self || (state.hoverObj && self.uuid !== state.hoverObj.uuid)) {
+    console.log('HOVER', self, state.hoverObj)
+    if (self.id3d === state.id3d) {
+      return
+    }
+    if (state.hoverObj !== null) {
       state.hoverObj.hover(false)
-      state.hoverObj = null
     }
-    if (self) {
-      state.hoverObj = self
-      self.hover(true)
-    }
+    state.hoverObj = self
+    self.hover(true)
   },
   SELECT (state, self) {
-    if (self && state.selectObj === self) {
-      state.selectObj.select(false)
-      self = null
+    if (self === null) {    // unslect
+      if (state.selectObj !== self) {
+        state.selectObj.select(false)
+        state.selectObj = null
+      }
+      return
     }
-    if (self && self !== state.selectObj) {
+    console.log('SELECT', self, state.selectObj)
+    if (self !== state.selectObj) {
+      if (state.selectObj !== null) {
+        state.selectObj.select(false)
+      }  // select new
       self.select(true)
+      state.selectObj = self
+    } else {    // unselect
+      self.select(false)
+      state.selectObj = null
     }
-    state.selectObj = self
   },
   WHEEL (state, obj) {
     //      let node = obj.obj

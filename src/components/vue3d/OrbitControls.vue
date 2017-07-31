@@ -59,6 +59,13 @@ export default {
 //      assign(this.curObj.rotation, this.rotation)
     },
 
+    enabled (val = null) {
+      if (val !== null) {
+        this.curObj.enabled = val
+      }
+      return this.curObj.enabled
+    },
+
     animate () {
 
     },

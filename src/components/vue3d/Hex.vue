@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v3d-group>
+    <!--v3d-group>
       <v3d-mesh>
         <v3d-geometry type="Cylinder" :args="argCyl" ref="cyl"></v3d-geometry>
         <v3d-material type="Standard" color="#00ff00" side="Double"></v3d-material>
@@ -9,7 +9,7 @@
         <v3d-geometry type="Cylinder" :args="argTop" ref="topgeo"></v3d-geometry>
         <v3d-material type="Normal" color="#00ffff" ref="topmat"></v3d-material>
       </v3d-mesh>
-    </v3d-group>
+    </v3d-group -->
   </div>
 </template>
 <script>
@@ -62,26 +62,50 @@ export default {
   },
 
   beforeCreate () {
-
+    this.edgeMat = new THREE.LineBasicMaterial({color: 0x000000})
   },
   created () {
     this.curObj = this.obj
     console.log(this.node.name, this.index)
-    this.curObj = new THREE.Group()
-    this.curObj.vue = this
-    this.id3d = this.name || this.curObj.uuid
-    this.curObj.name = this.id3d
 
-    this.sz = 10
+    // create new hex Object
+    let group = new THREE.Group()
+    group.vue = this
+    this.id3d = this.name || group.uuid
+    group.name = this.id3d
+
     this.height = this.node.value / this.scale
+    this.color = '#00ff00'
+
+    let cylGeo = new THREE.CylinderGeometry(this.size, this.size, this.height, 6, 1, true)
+    let cylMat = new THREE.MeshStandardMaterial({
+      color: this.color,
+      side: THREE.DoubleSide
+    })
+    let cyl = new THREE.Mesh(cylGeo, cylMat)
+    cyl.vue = this
+    let edg = this.drawEdges(cylGeo, this.edgeMat)
+    edg.vue = this
+    cyl.add(edg)
+    console.log(edg)
+    cyl.position.y = 0
+//    let baseSz = 0.1
+    let topGeo = new THREE.CylinderGeometry(0.1, this.size, -5, 6, 1, true)
+    let topMat = new THREE.MeshNormalMaterial({side: THREE.DoubleSide})
+    let top = new THREE.Mesh(topGeo, topMat)
+    top.position.y = this.height / 2 - 2.5
+    top.vue = this
+
+    group.add(cyl)
+    this.cyl = cyl
+    group.add(top)
+    this.top = top
+
+    this.curObj = group
+
     let pos = this.idx2pos(this.index)
-    console.log(pos)
     this.pos = pos
     this.positionHex(pos.x, pos.y, pos.z)
-//    Object.assign(this.curObj.position, pos)
-//    set position, size, height
-    this.argCyl = [this.size, this.size, this.height, 6, 1, true].join()
-    this.argTop = [this.size, 0.1, 10, 6, 1, true].join()
 
     this.$on('addChild', this.addChild)
     this.$on('addMaterial', this.addMat)
@@ -89,12 +113,7 @@ export default {
   },
 
   mounted () {
-    let refs = this.$refs
-    console.log(refs, refs.top)
-    this.$refs.top.curObj.position.y = this.height / 2 - 5
-
     this.dbgPrt('mountHex', this.id3d)
-//    this.curObj.position.y = 10
     this.$parent.$emit('addChild', this)
   },
 
@@ -111,6 +130,12 @@ export default {
   },
 
   methods: {
+    drawEdges (obj, mat) {
+      let edges = new THREE.EdgesGeometry(obj, 1)
+      let line = new THREE.LineSegments(edges, mat)
+      return line
+    },
+
     /*
     side 0, 3   y = level, x = offset
     side 1, 4   x = level, z = offset
@@ -186,20 +211,12 @@ export default {
     },
     hover (val) {
       if (this.curObj.type === 'Group') {
-        for (let chld of this.curObj.children) {
-          console.log('CHLD', chld.type)
-          if (chld.vue.hover) {
-            console.log('CHLDhover', chld.type)
-            chld.vue.hover(val)
-          }
-        }
+        this.cyl.material.wireframe = val
+        this.top.material.wireframe = val
       }
     },
     select (val) {
       if (this.curObj.name === 'Group') {
-        for (let chld of this.curObj.children) {
-          chld.select(val)
-        }
       }
     }
   }
