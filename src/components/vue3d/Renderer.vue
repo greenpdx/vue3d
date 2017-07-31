@@ -47,7 +47,8 @@ export default {
     },
     name: {
       default: null
-    }
+    },
+    orbit: {}
   },
 
   data () {
@@ -175,7 +176,7 @@ export default {
         console.log('select', obj)
         this.$store.dispatch('select', obj)
       } else {    // change mode
-        console.log('Change Mode')
+        console.log('Change Mode', this.orbit.enabled())
       }
       this.animate()
     },

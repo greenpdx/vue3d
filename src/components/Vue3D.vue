@@ -5,7 +5,7 @@
       Source <a v-bind:href="linkto"> vue3d </a> Contact <a v-bind:href="mailto">GreenPDX</a></h3>
     <div id="three3d" class="three3d" ref="three3d">
       <h2>{{ selectIt }}</h2>
-      <v3d-renderer ref="renderer" size="800,800">
+      <v3d-renderer ref="renderer" size="800,800" :orbit="controls">
         <v3d-scene ref="scene">
           <v3d-orbit-controls ref="controls">
             <v3d-camera ref="camera0" position="{z: 150}"></v3d-camera>
@@ -80,7 +80,8 @@ export default {
       beacat: new Set(),
       year: '2016',
       data: {},
-      nodes: []
+      nodes: [],
+      controls: null
     }
   },
 
@@ -106,6 +107,7 @@ export default {
 
   mounted () {
     let ele = this.$refs.infopop
+    this.controls = this.$refs.controls
     ele.style.top = this.mySize.top + 'px'
     ele.style.left = this.mySize.left + 'px'
   },
