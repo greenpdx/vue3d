@@ -54,6 +54,8 @@ export default {
       }
       this.controls.name = this.id3d
       this.curObj = this.controls
+      this.curObj.maxPolarAngle = Math.PI / 2
+
       this.dbgPrt('addCam2Orbt', camera.id3d, this.id3d)
 //      assign(this.curObj.position, this.position)
 //      assign(this.curObj.rotation, this.rotation)

@@ -89,9 +89,9 @@ export default {
     hover (val) {
       if (this.curObj.type === 'Group') {
         for (let chld of this.curObj.children) {
-          console.log('CHLD', chld.type)
+//          console.log('CHLD', chld.type)
           if (chld.vue.hover) {
-            console.log('CHLDhover', chld.type)
+//            console.log('CHLDhover', chld.type)
             chld.vue.hover(val)
           }
         }

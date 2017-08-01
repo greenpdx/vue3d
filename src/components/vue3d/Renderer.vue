@@ -1,13 +1,7 @@
 <template>
   <div id="renderer">
-    <div id="canvas">
-      <slot></slot>
-      <div ref="container"></div>
-    </div>
-    <div id="overlay"
-      @click="clickIt($event)">
-      <worm-hole size="{x:800,y:800}"></worm-hole>
-    </div>
+    <slot></slot>
+    <div ref="container"></div>
   </div>
 </template>
 
@@ -26,7 +20,7 @@ export default {
 
   props: {
     size: {
-      type: String // { w, h }
+      // { w, h }
     },
     obj: { type: WebGLRenderer },
     alpha: {
@@ -76,13 +70,13 @@ export default {
     this.curObj.name = this.id3d
     if (typeof (this.size) === 'string') {
       let str = this.size.replace(/'/gi, '"')
-      console.log(str)
-//      this.sz = JSON.parse(str)
+//      console.log(str)
+      this.sz = JSON.parse(str)
     } else {
       this.sz = this.size
     }
-//    this.curObj.setSize(this.sz.x, this.sz.y)
-    this.curObj.setSize(800, 800)
+    this.curObj.setSize(this.sz.x, this.sz.y)
+//    this.curObj.setSize(800, 800)
 
     this.domEle = this.curObj.domElement
     this.curObj.setClearColor(this.clearColor)
@@ -105,7 +99,7 @@ export default {
 
   mounted () {
     this.dbgPrt('mountRen', this.id3d)
-    console.log(this.$refs)
+//    console.log(this.$refs)
     this.$refs.container.appendChild(this.domEle)
     this.animate()
   },
@@ -116,8 +110,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters('three3d', {
-      renderer: 'renderer'
+    ...mapGetters({
+      renderer: 'renderer',
+      selectObj: 'selectObj'
     }),
     domElement: function () {
       return this.domEle
@@ -135,9 +130,6 @@ export default {
     ...mapActions('three3d', [
       'setRenderer'
     ]),
-    clickIt (evt) {
-      console.log(evt)
-    },
     _getIntersect (evt) {
       let dom = {
         x: this.domEle.offsetLeft,
@@ -160,10 +152,10 @@ export default {
       if (intersect.length > 0) {  // this app the selection is group
 //        obj = intersect[0].object.vue.$parent
         obj = intersect[0].object.parent
-        console.log('hover', obj, obj.vue)
+//        console.log('hover', obj, obj.vue)
         obj = obj.vue
       }
-      console.log('hover', obj)
+//      console.log('hover', obj)
       this.$store.dispatch('hover', obj)
       this.animate()
     },
@@ -184,11 +176,11 @@ export default {
       let intersect = this._getIntersect(evt)
       if (intersect.length > 0) {
         let obj = intersect[0].object.parent.vue
-        console.log('wheel', obj, this.selectObj)
+        console.log('wheel', evt.deltaY, obj, this.selectObj)
         if (obj === this.selectObj) {
           evt.preventDefault()
           evt.stopImmediatePropagation()
-          this.$store.dispatch('wheelChg', {obj: obj, val: evt.deltaY})
+          obj.wheelChg(evt.deltaY)
           this.animate()
         }
       }
@@ -224,19 +216,5 @@ export default {
 
 </script>
 <style scoped>
-#renderer {
-  position: relative;
-}
-#overlay,
-#canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-#overlay {
-  z-index: 10;
-  width: 800px;
-  height: 800px;
-  pointer-events: none;
-}
+
 </style>

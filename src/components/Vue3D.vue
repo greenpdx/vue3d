@@ -5,20 +5,27 @@
       Source <a v-bind:href="linkto"> vue3d </a> Contact <a v-bind:href="mailto">GreenPDX</a></h3>
     <div id="three3d" class="three3d" ref="three3d">
       <h2>{{ selectIt }}</h2>
-      <v3d-renderer ref="renderer" size="800,800" :orbit="controls">
-        <v3d-scene ref="scene">
-          <v3d-orbit-controls ref="controls">
-            <v3d-camera ref="camera0" position="{z: 150}"></v3d-camera>
-          </v3d-orbit-controls>
-          <v3d-light color="#ffffff"></v3d-light>
-          <v3d-group>
-            <v3d-grid :nodes="nodes">
-            </v3d-grid>
-          </v3d-group>
-        </v3d-scene>
-      </v3d-renderer>
-      <div v-show="showInfo" class="infopop" ref="infopop">
-        <div >{{ objInfo }}</div>
+      <div id="container">
+        <div ref="overlay" id="overlay"
+          @click="clickIt($event)" :size="size">
+          <worm-hole :zoom1="zoom1" :zoom2="zoom2"></worm-hole>
+        </div>
+        <v3d-renderer id="renderer" ref="renderer" :size="size" :orbit="controls">
+          <v3d-scene ref="scene">
+            <v3d-orbit-controls ref="controls">
+              <v3d-camera ref="camera0" :position="camPos"></v3d-camera>
+            </v3d-orbit-controls>
+            <v3d-light color="#ffffff"></v3d-light>
+            <v3d-group>
+              <v3d-grid :nodes="nodes"
+                v-on:click.capture.stop="clickIt($event)">
+              </v3d-grid>
+            </v3d-group>
+          </v3d-scene>
+        </v3d-renderer>
+        <div v-show="showInfo" class="infopop" ref="infopop">
+          <div v-html="objInfo"></div>
+        </div>
       </div>
     </div>
     <div class="right">
@@ -47,6 +54,7 @@ import Material from './vue3d/Material'
 import OrbitControls from './vue3d/OrbitControls'
 import Group from './vue3d/Group'
 import Grid from './vue3d/Grid'
+import WormHole from './vue3d/WormHole'
 
 import TestData from '@/assets/TestData'
 
@@ -63,7 +71,8 @@ export default {
     'v3d-material': Material,
     'v3d-orbit-controls': OrbitControls,
     'v3d-group': Group,
-    'v3d-grid': Grid
+    'v3d-grid': Grid,
+    'worm-hole': WormHole
   },
 
   data () {
@@ -81,7 +90,11 @@ export default {
       year: '2016',
       data: {},
       nodes: [],
-      controls: null
+      controls: null,
+      size: {x: 800, y: 800},
+      zoom1: 1,
+      zoom2: 1,
+      camPos: {x: 50, y: 150, z: 100}
     }
   },
 
@@ -101,7 +114,7 @@ export default {
     let rand = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER - 1))
     this.mailto = this.mailto + document.referrer + '&body=Please Keep; ' + rand
     this.setThree3d(this)
-    this.nodes = this.data.children
+    this.nodes = this.data.children[0].children
     console.log(this.nodes)
   },
 
@@ -128,7 +141,15 @@ export default {
     }),
     showInfo: function () {
       if (this.hoverObj !== null) {
-        this.objInfo = this.hoverObj.id3d
+        let obj = this.hoverObj
+        let str = ''
+        let node = obj.node
+        str += obj.id3d + ' ' + node.value + '<br />'
+        str += node.name + '<br />'
+        str += Math.round(obj.loc.x * 100) / 100 +
+          ', ' + Math.round(obj.loc.y * 100) / 100 +
+          ', ' + Math.round(obj.loc.z * 100) / 100
+        this.objInfo = str
         return true
       } else {
         this.objInfo = ''
@@ -166,11 +187,35 @@ export default {
 
       return {idx: idx, id: itm._id}
     },
-    loadClick (evt) {
-      this.getData()
+    loadClick (evt) {   // try bezier  gre/bezier-easing
+      let camera = this.$refs.camera0
+      let sel = this.selectObj
+      let old = camera.curObj.position
+      console.log('CAM', old)
+      if (sel !== null) {
+        console.log(sel.loc)    // just change
+
+/*        let dif.x = (old.x - sel.loc.x) / 100
+        let dif.y = (old.y - sel.loc.y) / 100
+        let dif.z = (old.z -sel.loc.z) / 100
+        let cnt =
+        let id = setInterval(function () {
+          if (cnt-- < 0) {
+
+          }
+          camera.curObj.position.set(sel.loc.x, sel.loc.y + 50, sel.loc.z)
+          camera.curObj.lookAt(new THREE.Vector3(sel.loc.x, sel.loc.y, sel.loc.z))
+        }, 10) */
+      }
     },
     clrClick (evt) {
       this.clearNodes()
+    },
+    clickIt (evt) {
+      console.log(evt)
+    },
+    zoomIn (node) {
+
     },
     dumpClick (evt) {
       let nodes = this.getNodes
@@ -221,6 +266,24 @@ export default {
   width: 45%;
   text-align: left;
   font-size: 1.2em;
+}
+#container {
+  position: relative;
+}
+#renderer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 40;
+}
+#overlay {
+  position: absolute;
+  z-index: 10;
+  top: -20;
+  left: 0;
+  width: 800px;
+  height: 800px;
+  pointer-events: none;
 }
 h1, h2 {
   font-weight: normal;

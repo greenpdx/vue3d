@@ -11,14 +11,12 @@ import nodes from './modules/nodes'
 
 const state = {
   hoverObj: null,
-  selectObj: null,
-  wheelChg: 0
+  selectObj: null
 }
 
 const getters = {
   hoverObj: state => state.hoverObj,
-  selectObj: state => state.selectObj,
-  wheelChg: state => state.wheelChg
+  selectObj: state => state.selectObj
 }
 
 const mutations = {
@@ -30,7 +28,7 @@ const mutations = {
       }
       return
     }
-    console.log('HOVER', self, state.hoverObj)
+//    console.log('HOVER', self, state.hoverObj)
     if (self.id3d === state.id3d) {
       return
     }
@@ -48,7 +46,7 @@ const mutations = {
       }
       return
     }
-    console.log('SELECT', self, state.selectObj)
+//    console.log('SELECT', self, state.selectObj)
     if (self !== state.selectObj) {
       if (state.selectObj !== null) {
         state.selectObj.select(false)
@@ -59,11 +57,6 @@ const mutations = {
       self.select(false)
       state.selectObj = null
     }
-  },
-  WHEEL (state, obj) {
-    //      let node = obj.obj
-    let val = obj.val
-    this.dbgPrt('store wheel', val, state.selectObj)
   }
 }
 const actions = {
@@ -76,11 +69,6 @@ const actions = {
     commit
   }, obj) {
     commit('SELECT', obj)
-  },
-  wheelChg ({
-    commit
-  }, obj) {
-    commit('WHEEL', obj)
   }
 }
 

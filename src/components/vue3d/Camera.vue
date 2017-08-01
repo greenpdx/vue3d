@@ -60,7 +60,7 @@ export default {
           this.curObj = new PerspectiveCamera(this.fov, this.aspect, this.near, this.far)
       }
       this.curObj.vue = this
-      this.curObj.position.z = 150
+      this.curObj.position.set(this.position.x, this.position.y, this.position.z)
 
 //      this.setCamera()
 /*      if (this.control) {

@@ -48,7 +48,9 @@ export default {
   props: {
     size: {},
     clearColor: 0,
-    color: null
+    color: null,
+    zoom1: null,
+    zoom2: null
   },
 
   data () {
@@ -63,8 +65,8 @@ export default {
       edges0: [],
       edges1: [],
       hex0: '', // '-40,400 180,19 620,19 840,400 620,781.11 180,781',
-      show0: false,   // smallest inside
-      show1: false,    // largest outside
+//      show0: true,   // smallest inside
+//      show1: true,    // largest outside
       red: '#f00',
       green: '#0f0',
       black: '#000',
@@ -182,8 +184,21 @@ export default {
     }
   },
 
-  watched: {
-
+  computed: {
+    show1: function () {
+      if (this.zoom1 !== null) {
+        return true
+      } else {
+        return false
+      }
+    },
+    show0: function () {
+      if (this.zoom2 !== null) {
+        return true
+      } else {
+        return false
+      }
+    }
   }
 }
 </script>

@@ -7,7 +7,7 @@
       <hex
         :node="node"
         v-bind:index="index"
-        scale="100000"
+        :scale="scale"
         size="5"
         @click="clickHex">
       </hex>
@@ -83,11 +83,12 @@ export default {
     this.curObj.vue = this
     this.id3d = this.curObj.name || this.curObj.uuid
     this.curObj.name = this.id3d
+    this.scale = this.nodes[0].value / 80
     this.children = this.nodes
     this.curObj.position.y = -40
 //    Object.assign(this.curObj.position, this.pos)
     this.$on('addChild', this.addChild)
-    console.log('NODE', this.nodes)
+//    console.log('NODE', this.nodes)
     this.children = this.nodes
     this.dbgPrt('createGrd', this.id3d)
   },
@@ -129,7 +130,7 @@ export default {
       this.curObj.add(child.curObj)
     },
 
-    clickMe (evt) {
+    clickHex (evt) {
       console.log(evt)
     }
   }
