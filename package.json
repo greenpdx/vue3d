@@ -14,7 +14,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "three": "^1.25.0",
     "three-orbitcontrols": "^1.2.0",
     "vue": "^2.3.3",
